@@ -10,7 +10,7 @@ def load_user(id):
         return Admin.query.get(int(id))
     elif user_type == 'Vendor':
         return Vendor.query.get(int(id))
-    else:
+    elif user_type == 'Customer':
         return Customer.query.get(int(id))
 
 
@@ -117,8 +117,8 @@ class Customer(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(40), unique=True, nullable=False)
     username = db.Column(db.String(20), unique=True, nullable=False)
-    first_name = db.Column(db.String(30), unique=True, nullable=False)
-    last_name = db.Column(db.String(30), unique=True, nullable=False)
+    first_name = db.Column(db.String(30), nullable=False)
+    last_name = db.Column(db.String(30), nullable=False)
     country = db.Column(db.String(30), nullable=False)
     state = db.Column(db.String(30), nullable=False)
     city = db.Column(db.String(30), nullable=False)
