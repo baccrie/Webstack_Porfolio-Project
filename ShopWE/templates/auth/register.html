@@ -67,6 +67,7 @@
                   <form method='POST' class="row g-3">
                     {{ form.hidden_tag() }}
 
+                    {% include 'message.html' %}
                     <div class="col-12">
                       {{ form.username.label(class='form-label') }}
                         {% if form.username.errors %}
