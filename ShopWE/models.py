@@ -1,18 +1,32 @@
-from ShopWE import db
+from ShopWE import db, login_manager
 from datetime import datetime
+from flask import session
+from flask_login import UserMixin
+
+@login_manager.user_loader
+def load_user(id):
+    user_type = session.get('type')
+    if user_type == 'Admin':
+        return Admin.query.get(int(id))
+    elif user_type == 'Vendor':
+        return Vendor.query.get(int(id))
+    else:
+        return Customer.query.get(int(id))
+
+
 
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30), nullable=False, unique=False)
-    price = db.Column(db.Numeric(), default=False)
+    name = db.Column(db.String(80), nullable=False, unique=False)
+    price = db.Column(db.Numeric(8, 1), default=False)
     discount = db.Column(db.Integer, default=0)
     stock = db.Column(db.Integer, default=0)
     description = db.Column(db.Text, nullable=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)    
 
-    image_1 = db.Column(db.String(150), nullable=False, default='image_1.jpg')
-    image_1 = db.Column(db.String(150), nullable=False, default='image_1.jpg')
-    image_1 = db.Column(db.String(150), nullable=False, default='image_1.jpg')
+    image_1 = db.Column(db.String(150), nullable=False, default='image.jpg')
+    image_2 = db.Column(db.String(150), nullable=False, default='image.jpg')
+    image_3 = db.Column(db.String(150), nullable=False, default='image.jpg')
 
     brand_id = db.Column(db.Integer, db.ForeignKey('brand.id'))
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
@@ -25,6 +39,7 @@ class Brand(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False, unique=True)
     products = db.relationship('Product', backref='brand')
+    image = db.Column(db.String(150), nullable=False, default='brand.jpg')
 
     def __repr__(self):
         return f'Brand - {self.name}'
@@ -33,11 +48,12 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False, unique=True)
     products = db.relationship('Product', backref='category')
+    image = db.Column(db.String(150), nullable=False, default='category.jpg')
 
     def __repr__(self):
         return f'Category - {self.name}'
 
-class Vendor(db.Model):
+class Vendor(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(40), unique=True, nullable=False)
     name = db.Column(db.String(20), unique=True, nullable=False)
@@ -49,6 +65,10 @@ class Vendor(db.Model):
     password = db.Column(db.String(50))
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
+    image_1 = db.Column(db.String(150), nullable=False, default='vendor.jpg')
+    image_2 = db.Column(db.String(150), nullable=False, default='vendor.jpg')
+    image_3 = db.Column(db.String(150), nullable=False, default='image.jpg')
+
     # Relationship
     comments = db.relationship('Comment', backref='posterV')
     products = db.relationship('Product', backref='owner')
@@ -56,7 +76,7 @@ class Vendor(db.Model):
     def __repr__(self):
         return f'Vendor - {self.name}'
 
-class Admin(db.Model):
+class Admin(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(40), unique=True, nullable=False)
     username = db.Column(db.String(20), unique=True, nullable=False)
@@ -93,7 +113,7 @@ class Post(db.Model):
     def __repr__(self):
         return f'Post - {self.title}'
 
-class Customer(db.Model):
+class Customer(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(40), unique=True, nullable=False)
     username = db.Column(db.String(20), unique=True, nullable=False)

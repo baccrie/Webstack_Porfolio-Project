@@ -1,4 +1,5 @@
-from flask import Blueprint
+from flask import Blueprint, render_template, url_for
+from ShopWE.customers.forms import CustomerRegister
 
 
-# customers = Blueprint('customers', __name__)
+customer = Blueprint('customer', __name__)
