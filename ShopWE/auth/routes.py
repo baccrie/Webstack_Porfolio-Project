@@ -2,13 +2,25 @@ from ShopWE import app, db, bcrypt, flash
 from flask import Blueprint, render_template, url_for, session, request, redirect
 from flask_login import login_required
 from ShopWE.customers.forms import CustomerRegister
+from ShopWE.auth.forms import Login
 from ShopWE.models import Customer
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/login')
+@auth.route('/auth/login', methods=['POST', 'GET'])
 def login():
-    return 'Successfully Logged In'
+    form = Login()
+    if form.validate_on_submit():
+        user = Customer.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            flash('Successfully Login', 'primary')
+            return redirect(url_for('home'))
+        elif user and not bcrypt.check_password_hash(user.password, form.password.data):
+            flash(f'Invalid password', 'primary')
+        elif not user:
+            flash(f'user dosent exist', 'primary')
+        return redirect(url_for('auth.login'))
+    return render_template('auth/login.html', form=form)
 
 @auth.route('/auth/customer/register', methods=['POST', 'GET'])
 def customer_register():
