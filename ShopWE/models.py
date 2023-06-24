@@ -53,7 +53,8 @@ class Vendor(db.Model):
     comments = db.relationship('Comment', backref='posterV')
     products = db.relationship('Product', backref='owner')
 
-
+    def __repr__(self):
+        return f'Vendor - {self.name}'
 
 class Admin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -89,6 +90,8 @@ class Post(db.Model):
     comments = db.relationship('Comment', backref='post')
     admin_id = db.Column(db.Integer, db.ForeignKey('admin.id'))
 
+    def __repr__(self):
+        return f'Post - {self.title}'
 
 class Customer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -108,6 +111,8 @@ class Customer(db.Model):
     # Relationship
     comments = db.relationship('Comment', backref='posterC')
 
+    def __repr__(self):
+        return f'Customer - {self.username}'
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -122,4 +127,4 @@ class Comment(db.Model):
 
 
     def __repr__(self):
-        return f'Customer - {self.username}'
+        return f'Comment'

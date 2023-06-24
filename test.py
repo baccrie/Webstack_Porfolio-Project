@@ -4,7 +4,6 @@ from ShopWE.models import Admin, Vendor, Post, Product, Category, Brand, Comment
 
 
 app.app_context().push()
-"""
 db.create_all()
 
 # create Brand ansd Category
@@ -28,6 +27,6 @@ cat = Category.query.filter_by(id=1).first()
 product1 = Product(name='Freepod 4', description='tmp', vendor_id = vend.id, brand_id=bra.id, category_id=cat.id)
 db.session.add(product1)
 db.session.commit()
-"""
+
 product = Product.query.first()
 print(product.owner)
