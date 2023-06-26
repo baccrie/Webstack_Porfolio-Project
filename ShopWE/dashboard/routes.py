@@ -20,29 +20,36 @@ def home():
 @login_required
 def addproduct():
     form = Addproduct()
+    brands = Brand.query.all()
+    categories = Category.query.all()
     if not isinstance(current_user, Vendor):
         flash(f'This page is only accessible to vendors', 'danger')
         return redirect(url_for('home'))
     if form.validate_on_submit():
+        brand_id = request.form.get('brand')
+        category_id = request.form.get('category')
         newProduct = Product(name=form.name.data, price=form.price.data, discount=form.discount.data,
-                             stock=form.stock.data, description=form.description.data, vendor_id=current_user.id)
+                             stock=form.stock.data, description=form.description.data, brand_id=brand_id, category_id=category_id, vendor_id=current_user.id)
         db.session.add(newProduct)
         db.session.commit()
         flash(f'Product successfully added', 'success')
         return redirect(url_for('dash.addproduct'))
-    return render_template('dashboard/add_product.html', form=form)
+    return render_template('dashboard/add_product.html', form=form, brands=brands, categories=categories)
 
 @dash.route('/dash/<int:id>/updateproduct', methods=['POST', 'GET'])
 @login_required
 def updateproduct(id):
+    product_to_edit = Product.query.get_or_404(id)
+    form = Updateproduct()
+
     if not isinstance(current_user, Vendor):
         flash(f'This page is only accessible to vendors', 'danger')
         return redirect(url_for('home'))
     
-    product_to_edit = Product.query.get_or_404(id)
-    form = Updateproduct()
-
-
+    elif current_user.id != product_to_edit.vendor_id:
+        flash(f'You cant access a product that dosent belong to you', 'danger')
+        return redirect(url_for('home'))
+    
     if form.validate_on_submit():
         product_to_edit.name = form.name.data
         product_to_edit.price = form.price.data
@@ -69,6 +76,15 @@ def updateproduct(id):
 @login_required
 def deleteproduct(id):
     product_to_delete = Product.query.get_or_404(id)
+
+    if not isinstance(current_user, Vendor):
+        flash(f'This page is only accessible to vendors', 'danger')
+        return redirect(url_for('home'))
+    
+    elif current_user.id != product_to_delete.vendor_id:
+        flash(f'You cant delete a product that dosent belong to you', 'danger')
+        return redirect(url_for('home'))
+    
     db.session.delete(product_to_delete)
     db.session.commit()
 
