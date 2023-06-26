@@ -99,9 +99,11 @@
 
         <div class="header-user-actions">
 
+          {% if current_user.is_authenticated %}
           <button class="action-btn">
-            <ion-icon name="person-circle-outline"></ion-icon>
+            <a href="{{ url_for('dash.home') }}"><ion-icon name="person-circle-outline"></ion-icon></a>
           </button>
+          {% endif %}
 
           <button class="action-btn">
             <ion-icon name="cart-outline"></ion-icon>
@@ -109,10 +111,11 @@
             <span class="count">3</span>
           </button>
 
+          {% if current_user.is_authenticated %}
           <button class="action-btn">
             <ion-icon name="log-out-outline"></ion-icon>
-           
           </button>
+          {% endif %}
 
         </div>
 
@@ -190,25 +193,29 @@
             <a href="#" class="menu-title">Shop's Near me</a>
           </li>
 
+          {% if not current_user.is_authenticated %}
           <li class="menu-category">
-            <a href="../pages-login.html" class="menu-title">Login</a>
+            <a href="{{ url_for('auth.login') }}" class="menu-title">Login</a>
           </li>
+          {% endif %}
 
+          {% if not current_user.is_authenticated %}
           <li class="menu-category">
             <a href="#" class="menu-title">Register</a>
 
             <ul class="dropdown-list">
 
               <li class="dropdown-item">
-                <a href="../vendor-register.html">Vendor</a>
+                <a href="{{ url_for('auth.vendor_register') }}">Vendor</a>
               </li>
 
               <li class="dropdown-item">
-                <a href="../regular-user-register.html">Regular User</a>
+                <a href="{{ url_for('auth.customer_register') }}">Regular User</a>
               </li>
 
             </ul>
           </li>
+          {% endif %}
 
         </ul>
 

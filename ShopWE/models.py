@@ -17,7 +17,7 @@ def load_user(id):
 
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False, unique=False)
+    name = db.Column(db.String(100), nullable=False, unique=False)
     price = db.Column(db.Numeric(8, 1), default=False)
     discount = db.Column(db.Integer, default=0)
     stock = db.Column(db.Integer, default=0)
@@ -56,10 +56,11 @@ class Category(db.Model):
 class Vendor(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(40), unique=True, nullable=False)
-    name = db.Column(db.String(20), unique=True, nullable=False)
+    name = db.Column(db.String(100), unique=True, nullable=False)
     country = db.Column(db.String(30), nullable=False)
     state = db.Column(db.String(30), nullable=False)
     city = db.Column(db.String(30), nullable=False)
+    about = db.Column(db.String(1000))
     phone = db.Column(db.String(30), nullable=False, unique=True)
 
     password = db.Column(db.String(50))
