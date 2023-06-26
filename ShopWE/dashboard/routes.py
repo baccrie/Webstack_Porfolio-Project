@@ -65,6 +65,15 @@ def updateproduct(id):
 
     return render_template('dashboard/update_product.html', form=form)
 
+@dash.route('/dash/<int:id>/deleteproduct', methods=['POST', 'GET'])
+@login_required
+def deleteproduct(id):
+    product_to_delete = Product.query.get_or_404(id)
+    db.session.delete(product_to_delete)
+    db.session.commit()
+
+    return redirect(url_for('dash.home'))
+
 
 @dash.route('/dash/addbrand', methods=['POST', 'GET'])
 @login_required
