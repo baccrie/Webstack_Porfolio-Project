@@ -29,7 +29,7 @@ def addproduct():
         brand_id = request.form.get('brand')
         category_id = request.form.get('category')
         newProduct = Product(name=form.name.data, price=form.price.data, discount=form.discount.data,
-                             stock=form.stock.data, description=form.description.data, brand_id=brand_id, category_id=category_id, vendor_id=current_user.id)
+                             stock=form.stock.data, description=form.description.data, brand_id=brand_id, category_id=category_id,  vendor_id=current_user.id)
         db.session.add(newProduct)
         db.session.commit()
         flash(f'Product successfully added', 'success')
