@@ -141,22 +141,11 @@
             <a href="#" class="menu-title">Brand</a>
 
             <ul class="dropdown-list">
-
+              {% for brand in brands %}
               <li class="dropdown-item">
-                <a href="#">Oraimo</a>
+                <a href="#">{{ brand.name }}</a>
               </li>
-
-              <li class="dropdown-item">
-                <a href="#">Nike</a>
-              </li>
-
-              <li class="dropdown-item">
-                <a href="#">Samsung</a>
-              </li>
-
-              <li class="dropdown-item">
-                <a href="#">LG</a>
-              </li>
+              {% endfor %}
 
             </ul>
           </li>
@@ -165,22 +154,11 @@
             <a href="#" class="menu-title">Category</a>
 
             <ul class="dropdown-list">
-
+              {% for category in categories %}
               <li class="dropdown-item">
-                <a href="#">Clothes</a>
+                <a href="#">{{ category.name }}</a>
               </li>
-
-              <li class="dropdown-item">
-                <a href="#">Laptops</a>
-              </li>
-
-              <li class="dropdown-item">
-                <a href="#">Mobiles</a>
-              </li>
-
-              <li class="dropdown-item">
-                <a href="#">Electronics</a>
-              </li>
+              {% endfor %}
 
             </ul>
           </li>
@@ -587,26 +565,11 @@
           <li class="footer-nav-item">
             <h2 class="nav-title">Popular Categories</h2>
           </li>
-
+          {% for category in categories %}
           <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Fashion</a>
+            <a href="#" class="footer-nav-link">{{ category.name }}</a>
           </li>
-
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Electronic</a>
-          </li>
-
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Cosmetic</a>
-          </li>
-
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Health</a>
-          </li>
-
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Watches</a>
-          </li>
+          {% endfor %}
 
         </ul>
 

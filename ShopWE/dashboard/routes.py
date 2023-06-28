@@ -6,6 +6,7 @@ from ShopWE.vendors.forms import VendorRegister
 from ShopWE.auth.forms import Login
 from ShopWE.models import Customer, Vendor, Product,  Brand, Category
 from ShopWE.dashboard.forms import Addproduct, Addbrand, Addcategory, Updateproduct
+from ShopWE.generic import save_image
 
 dash = Blueprint('dash', __name__)
 
@@ -29,10 +30,24 @@ def addproduct():
         brand_id = request.form.get('brand')
         category_id = request.form.get('category')
         newProduct = Product(name=form.name.data, price=form.price.data, discount=form.discount.data,
-                             stock=form.stock.data, description=form.description.data, brand_id=brand_id, category_id=category_id,  vendor_id=current_user.id)
+                             stock=form.stock.data, description=form.description.data, brand_id=brand_id, category_id=category_id,  vendor_id=current_user.id,
+                             )
+        if form.image_1.data:
+            image_name = save_image(form.image_1.data, 'products')
+            newProduct.image_1 = image_name
+        
+        if form.image_2.data:
+            image_name = save_image(form.image_2.data, 'products')
+            newProduct.image_2 = image_name
+
+        if form.image_3.data:
+            image_name = save_image(form.image_3.data, 'products')
+            newProduct.image_3 = image_name
+
         db.session.add(newProduct)
-        db.session.commit()
+        #db.session.commit()
         flash(f'Product successfully added', 'success')
+        print('No')
         return redirect(url_for('dash.addproduct'))
     return render_template('dashboard/add_product.html', form=form, brands=brands, categories=categories)
 
@@ -57,9 +72,18 @@ def updateproduct(id):
         product_to_edit.discount = form.discount.data
         product_to_edit.description = form.description.data
 
-        print('start')
+        if form.image_1.data:
+            image_name = save_image(form.image_1.data, 'products')
+            product_to_edit.image_1 = image_name
+        
+        if form.image_2.data:
+            image_name = save_image(form.image_2.data, 'products')
+            product_to_edit.image_2 = image_name
+
+        if form.image_3.data:
+            image_name = save_image(form.image_3.data, 'products')
+            product_to_edit.image_3 = image_name
         db.session.commit()
-        print('stop')
 
         flash('product successfully updated', 'success')
         return redirect(url_for('dash.home'))

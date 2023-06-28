@@ -25,7 +25,7 @@
               <h5 class="card-title">Add New Product</h5>
 
               <!-- General Form Elements -->
-              <form method="POST">
+              <form method="POST" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
 
                 {% include 'message.html' %}
@@ -134,8 +134,28 @@
                     <label for="inputNumber" class="col-sm-2 col-form-label">Product Images</label>
                     <div class="col-sm-10">
                         {{ form.image_1(class="form-control", id="formFile") }}
-                        {{ form.image_1(class="form-control", id="formFile") }}
-                        {{ form.image_1(class="form-control", id="formFile") }}
+                        {% if form.image_1.errors%}
+                          {% for error in form.image_1.errors %}
+                          <span style="color: red">{{ error }}</span>
+                          {% endfor %}
+                          <br><br>
+                          {% endif %}
+
+                        {{ form.image_2(class="form-control", id="formFile") }}
+                        {% if form.image_2.errors%}
+                          {% for error in form.image_2.errors %}
+                          <span style="color: red">{{ error }}</span>
+                          {% endfor %}
+                          <br><br>
+                          {% endif %}
+
+                        {{ form.image_3(class="form-control", id="formFile") }}
+                        {% if form.image_3.errors%}
+                          {% for error in form.image_3.errors %}
+                          <span style="color: red">{{ error }}</span>
+                          {% endfor %}
+                          <br><br>
+                          {% endif %}
                     </div>
                 </div>
 
@@ -145,7 +165,10 @@
                   </div>
                 </div>
 
-              </form><!-- End General Form Elements -->
+              </form>
+
+              {{ ckeditor.load() }}
+              {{ ckeditor.config(name='description') }}
 
             </div>
           </div>
