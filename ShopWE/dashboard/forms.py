@@ -25,7 +25,7 @@ class Updateproduct(FlaskForm):
     price = DecimalField('Price', validators=[DataRequired()])
     discount = IntegerField('Discount', validators=[DataRequired()])
     stock = IntegerField('Stock', default=0)
-    description = TextAreaField('Description', validators=[DataRequired()])
+    description = CKEditorField('Description', validators=[DataRequired()], widget=TextArea())
     submit = SubmitField('Update Product')
 
     image_1 = FileField('image1', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])

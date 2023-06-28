@@ -139,7 +139,10 @@
                   </div>
                 </div>
 
-              </form><!-- End General Form Elements -->
+              </form>
+
+              {{ ckeditor.load() }}
+              {{ ckeditor.config(name='description') }}
 
             </div>
           </div>
