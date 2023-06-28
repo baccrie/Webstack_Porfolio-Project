@@ -7,6 +7,8 @@ from ShopWE.auth.forms import Login
 from ShopWE.models import Customer, Vendor, Product,  Brand, Category
 from ShopWE.dashboard.forms import Addproduct, Addbrand, Addcategory, Updateproduct
 from ShopWE.generic import save_image
+from flask import current_app
+import os
 
 dash = Blueprint('dash', __name__)
 
@@ -45,7 +47,7 @@ def addproduct():
             newProduct.image_3 = image_name
 
         db.session.add(newProduct)
-        #db.session.commit()
+        db.session.commit()
         flash(f'Product successfully added', 'success')
         print('No')
         return redirect(url_for('dash.addproduct'))
@@ -56,6 +58,8 @@ def addproduct():
 def updateproduct(id):
     product_to_edit = Product.query.get_or_404(id)
     form = Updateproduct()
+    brands = Brand.query.all()
+    categories = Category.query.all()
 
     if not isinstance(current_user, Vendor):
         flash(f'This page is only accessible to vendors', 'danger')
@@ -73,19 +77,32 @@ def updateproduct(id):
         product_to_edit.description = form.description.data
 
         if form.image_1.data:
-            image_name = save_image(form.image_1.data, 'products')
-            product_to_edit.image_1 = image_name
+            try:
+                os.unlink(os.path.join(current_app.root_path, 'static/images/products'+ product_to_edit.image_1))
+                product_to_edit.image_1 = save_image(form.image_1.data, 'products')
+                print(product_to_edit.image_1)
+            except:
+                product_to_edit.image_1 = save_image(form.image_1.data, 'products')
+
         
         if form.image_2.data:
-            image_name = save_image(form.image_2.data, 'products')
-            product_to_edit.image_2 = image_name
+            try:
+                os.unlink(os.path.join(current_app.root_path, 'static/images/products'+ product_to_edit.image_2))
+                product_to_edit.image_2 = save_image(form.image_2.data, 'products')
+            except:
+                product_to_edit.image_2 = save_image(form.image_2.data, 'products')
 
         if form.image_3.data:
-            image_name = save_image(form.image_3.data, 'products')
-            product_to_edit.image_3 = image_name
+            try:
+                os.unlink(os.path.join(current_app.root_path, 'static/images/products'+ product_to_edit.image_3))
+                product_to_edit.image_3 = save_image(form.image_3.data, 'products')
+            except:
+                product_to_edit.image_3 = save_image(form.image_3.data, 'products')
+
         db.session.commit()
 
         flash('product successfully updated', 'success')
+        print('worked')
         return redirect(url_for('dash.home'))
     
     form.name.data = product_to_edit.name
@@ -94,7 +111,7 @@ def updateproduct(id):
     form.stock.data = product_to_edit.stock
     form.description.data = product_to_edit.description
 
-    return render_template('dashboard/update_product.html', form=form)
+    return render_template('dashboard/update_product.html', form=form, brands=brands, categories=categories)
 
 @dash.route('/dash/<int:id>/deleteproduct', methods=['POST', 'GET'])
 @login_required
@@ -109,7 +126,14 @@ def deleteproduct(id):
         flash(f'You cant delete a product that dosent belong to you', 'danger')
         return redirect(url_for('home'))
     
-    db.session.delete(product_to_delete)
+    try:
+        os.unlink(os.path.join(current_app.root_path, 'static/images/products'+ product_to_delete.image_1))
+        os.unlink(os.path.join(current_app.root_path, 'static/images/products'+ product_to_delete.image_2))
+        os.unlink(os.path.join(current_app.root_path, 'static/images/products'+ product_to_delete.image_3))
+        db.session.delete(product_to_delete)
+    except:
+        db.session.delete(product_to_delete)
+
     db.session.commit()
 
     return redirect(url_for('dash.home'))

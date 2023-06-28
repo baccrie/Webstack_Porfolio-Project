@@ -15,4 +15,5 @@ def categories():
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('home.html', brands=brands(), categories=categories())
+    products = Product.query.all()
+    return render_template('home.html', brands=brands(), categories=categories(), products=products)

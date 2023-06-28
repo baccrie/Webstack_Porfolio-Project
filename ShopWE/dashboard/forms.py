@@ -29,8 +29,8 @@ class Updateproduct(FlaskForm):
     submit = SubmitField('Update Product')
 
     image_1 = FileField('image1', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
-    image_2 = FileField('image1', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
-    image_3 = FileField('image1', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
+    image_2 = FileField('image2', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
+    image_3 = FileField('image3', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
 
 class Addbrand(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
@@ -42,5 +42,3 @@ class Addcategory(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     image = FileField('image', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     submit = SubmitField('Add')
-    
-
