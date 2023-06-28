@@ -60,7 +60,7 @@
                     <a href="#" class="showcase-category">{{ product.category.name }}</a>
                 
                     <h3>
-                      <a href="#" class="showcase-title">{{ product.name }}</a>
+                      <a href="{{ url_for('product.singleproduct', id=product.id)}}" class="showcase-title">{{ product.name }}</a>
                     </h3>
                 
                     <div class="showcase-rating">

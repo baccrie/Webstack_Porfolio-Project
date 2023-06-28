@@ -4,7 +4,7 @@ from flask_login import login_required, login_user, current_user, logout_user
 from ShopWE.customers.forms import CustomerRegister
 from ShopWE.vendors.forms import VendorRegister
 from ShopWE.auth.forms import Login
-from ShopWE.models import Customer, Vendor
+from ShopWE.models import Customer, Vendor, Admin
 
 auth = Blueprint('auth', __name__)
 
@@ -15,11 +15,16 @@ def login():
         user = Customer.query.filter_by(email=form.email.data).first()
         if not user:
             user = Vendor.query.filter_by(email=form.email.data).first()
+        if not user:
+            user = Admin.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             if isinstance(user, Customer):
                 session['type'] = 'Customer'
             elif isinstance(user, Vendor):
                 session['type'] = 'Vendor'
+            elif isinstance(user, Admin):
+                session['type'] = 'Admin'
+                print('he is an admin')
             login_user(user)
             flash('Successfully Login', 'primary')
             print(current_user.email)
@@ -42,7 +47,7 @@ def customer_register():
                             last_name=form.last_name.data, country=form.country.data, state=form.state.data, city=form.city.data,
                             phone_number=form.number.data, password=hashed_password)
         db.session.add(customer)
-        #db.session.commit()
+        db.session.commit()
         flash(f'Successfully registerd pls login!', 'primary')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form, role='customer')
