@@ -91,6 +91,7 @@ class Admin(db.Model, UserMixin):
     city = db.Column(db.String(30), nullable=False)
     country = db.Column(db.String(30), nullable=False)
     phone_number = db.Column(db.String(30), nullable=False, unique=True)
+    profile_image = db.Column(db.String(30), default='default.jpg')
 
     password = db.Column(db.String(50))
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
@@ -131,6 +132,8 @@ class Customer(db.Model, UserMixin):
     city = db.Column(db.String(30), nullable=False)
     country = db.Column(db.String(30), nullable=False)
     phone_number = db.Column(db.String(30), nullable=False, unique=True)
+    profile_image = db.Column(db.String(30), default='default.jpg')
+
 
     password = db.Column(db.String(50))
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
