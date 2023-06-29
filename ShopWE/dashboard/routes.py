@@ -4,7 +4,7 @@ from flask_login import login_required, login_user, current_user, logout_user
 from ShopWE.customers.forms import CustomerRegister
 from ShopWE.vendors.forms import VendorRegister
 from ShopWE.auth.forms import Login
-from ShopWE.models import Customer, Vendor, Product,  Brand, Category
+from ShopWE.models import Customer, Vendor, Product,  Brand, Category, Activity, Post
 from ShopWE.dashboard.forms import Addproduct, Addbrand, Addcategory, Updateproduct
 from ShopWE.generic import save_image
 from flask import current_app
@@ -16,7 +16,10 @@ dash = Blueprint('dash', __name__)
 @login_required
 def home():
     form1 = Addbrand()
-    return render_template('dashboard/home.html', form1=form1)
+    posts = Post.query.limit(5).all()
+    products = Product.query.order_by(Product.date.desc()).limit(5).all()
+    activities = current_user.activities[:5]
+    return render_template('dashboard/home.html', form1=form1, posts=posts, products=products, activities=activities)
 
 
 @dash.route('/dash/addproduct', methods=['POST', 'GET'])
@@ -27,7 +30,7 @@ def addproduct():
     categories = Category.query.all()
     if not isinstance(current_user, Vendor):
         flash(f'This page is only accessible to vendors', 'danger')
-        return redirect(url_for('home'))
+        return redirect(url_for('dash.home'))
     if form.validate_on_submit():
         brand_id = request.form.get('brand')
         category_id = request.form.get('category')
@@ -47,6 +50,8 @@ def addproduct():
             newProduct.image_3 = image_name
 
         db.session.add(newProduct)
+        new_activity = Activity(content='You added new product to the database', vendor_id=current_user.id)
+        db.session.add(new_activity)
         db.session.commit()
         flash(f'Product successfully added', 'success')
         print('No')
@@ -63,11 +68,11 @@ def updateproduct(id):
 
     if not isinstance(current_user, Vendor):
         flash(f'This page is only accessible to vendors', 'danger')
-        return redirect(url_for('home'))
+        return redirect(url_for('dash.home'))
     
     elif current_user.id != product_to_edit.vendor_id:
         flash(f'You cant access a product that dosent belong to you', 'danger')
-        return redirect(url_for('home'))
+        return redirect(url_for('dash.home'))
     
     if form.validate_on_submit():
         product_to_edit.name = form.name.data
@@ -99,10 +104,11 @@ def updateproduct(id):
             except:
                 product_to_edit.image_3 = save_image(form.image_3.data, 'products')
 
+        new_activity = Activity(content=f'You updated the product {product_to_edit.name}', vendor_id=current_user.id)
+        db.session.add(new_activity)
         db.session.commit()
 
         flash('product successfully updated', 'success')
-        print('worked')
         return redirect(url_for('dash.home'))
     
     form.name.data = product_to_edit.name
@@ -134,6 +140,8 @@ def deleteproduct(id):
     except:
         db.session.delete(product_to_delete)
 
+    new_activity = Activity(content=f'You deleted the product {product_to_delete.name}', vendor_id=current_user.id)
+    db.session.add(new_activity)
     db.session.commit()
 
     return redirect(url_for('dash.home'))

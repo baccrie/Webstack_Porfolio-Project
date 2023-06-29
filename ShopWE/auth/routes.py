@@ -4,7 +4,7 @@ from flask_login import login_required, login_user, current_user, logout_user
 from ShopWE.customers.forms import CustomerRegister
 from ShopWE.vendors.forms import VendorRegister
 from ShopWE.auth.forms import Login
-from ShopWE.models import Customer, Vendor, Admin
+from ShopWE.models import Customer, Vendor, Admin, Activity
 
 auth = Blueprint('auth', __name__)
 
@@ -20,11 +20,18 @@ def login():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             if isinstance(user, Customer):
                 session['type'] = 'Customer'
+                new_activity = Activity(content='You logged in', customer_id=user.id)
+
             elif isinstance(user, Vendor):
                 session['type'] = 'Vendor'
+                new_activity = Activity(content='You logged in', vendor_id=user.id)
+    
             elif isinstance(user, Admin):
                 session['type'] = 'Admin'
-                print('he is an admin')
+                new_activity = Activity(content='You logged in', admin_id=user.id)
+
+            db.session.add(new_activity)
+            db.session.commit()
             login_user(user)
             flash('Successfully Login', 'primary')
             print(current_user.email)
@@ -47,6 +54,8 @@ def customer_register():
                             last_name=form.last_name.data, country=form.country.data, state=form.state.data, city=form.city.data,
                             phone_number=form.number.data, password=hashed_password)
         db.session.add(customer)
+        new_activity = Activity(content='Your account was registered', customer_id=customer.id)
+        db.session.add(new_activity)
         db.session.commit()
         flash(f'Successfully registerd pls login!', 'primary')
         return redirect(url_for('auth.login'))
@@ -61,7 +70,11 @@ def vendor_register():
         vendor = Vendor(name=form.name.data, email=form.email.data, country=form.country.data,
                         state=form.state.data, city=form.city.data,
                             phone=form.number.data, password=hashed_password)
+        
         db.session.add(vendor)
+        new_activity = Activity(content='Your account was registered', vendor_id=vendor.id)
+        db.session.add(new_activity)
+
         db.session.commit()
         flash(f'Successfully registered pls login!', 'primary')
         return redirect(url_for('auth.login'))
@@ -73,6 +86,18 @@ def logout():
     if not current_user.is_authenticated:
         flash('You re not logged in pls login first!', 'danger')
         return redirect(url_for('auth.login'))
+    
+    if isinstance(current_user, Customer):
+        new_activity = Activity(content='You logged out', customer_id=current_user.id)
+
+    if isinstance(current_user, Vendor):
+        new_activity = Activity(content='You logged out', vendor_id=current_user.id)
+    
+    if isinstance(current_user, Admin):
+        new_activity = Activity(content='You logged out', admin_id=current_user.id)
+
+    db.session.add(new_activity)
+    db.session.commit()
     logout_user()
     flash('Logout successful', 'success')
     return redirect(url_for('auth.login'))

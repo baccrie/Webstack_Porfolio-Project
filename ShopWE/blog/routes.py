@@ -1,7 +1,7 @@
 from ShopWE import app, db, bcrypt, flash
 from flask import Blueprint, render_template, url_for, session, request, redirect
 from flask_login import login_required, login_user, current_user, logout_user
-from ShopWE.models import Customer, Vendor, Product,  Brand, Category, Post, Comment, Admin
+from ShopWE.models import Customer, Vendor, Product,  Brand, Category, Post, Comment, Admin, Activity
 from ShopWE.blog.forms import Blogpost, UpdateBlogPost
 from ShopWE.generic import save_image, category, brand
 
@@ -31,6 +31,9 @@ def addpost():
             new_post.image_1 = image_name
         
         db.session.add(new_post)
+
+        new_activity = Activity(content='You added new post to the database', admin_id=current_user.id)
+        db.session.add(new_activity)
         db.session.commit()
         flash(f'Posts successfully added', 'success')
         return redirect(url_for('blog.addpost'))
