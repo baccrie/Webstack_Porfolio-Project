@@ -113,7 +113,7 @@
 
           {% if current_user.is_authenticated %}
           <button class="action-btn">
-            <ion-icon name="log-out-outline"></ion-icon>
+            <a href="{{ url_for('auth.logout') }}"><ion-icon name="log-out-outline"></ion-icon></a>
           </button>
           {% endif %}
 

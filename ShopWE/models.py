@@ -31,6 +31,7 @@ class Product(db.Model):
     brand_id = db.Column(db.Integer, db.ForeignKey('brand.id'))
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     vendor_id = db.Column(db.Integer, db.ForeignKey('vendor.id'))
+    comments = db.relationship('Comment', backref='product')
 
     def __repr__(self):
         return f'Product - {self.name}'
@@ -73,6 +74,8 @@ class Vendor(db.Model, UserMixin):
     # Relationship
     comments = db.relationship('Comment', backref='posterV')
     products = db.relationship('Product', backref='owner')
+    activities = db.relationship('Activity', backref='vendor')
+
 
     def __repr__(self):
         return f'Vendor - {self.name}'
@@ -95,6 +98,8 @@ class Admin(db.Model, UserMixin):
     # Relationships
     posts = db.relationship('Post', backref='poster')
     comments = db.relationship('Comment', backref='posterA')
+    activities = db.relationship('Activity', backref='admin')
+
 
 
     def __repr__(self):
@@ -106,6 +111,7 @@ class Post(db.Model):
     title = db.Column(db.String(100), nullable=False)
     content = db.Column(db.Text, nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    image = db.Column(db.String(100), default='image.jpg')
 
     # Relationships
     comments = db.relationship('Comment', backref='post')
@@ -131,6 +137,7 @@ class Customer(db.Model, UserMixin):
 
     # Relationship
     comments = db.relationship('Comment', backref='posterC')
+    activities = db.relationship('Activity', backref='customer')
 
     def __repr__(self):
         return f'Customer - {self.username}'
@@ -145,7 +152,18 @@ class Comment(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
     vendor_id = db.Column(db.Integer, db.ForeignKey('vendor.id'))
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
 
 
     def __repr__(self):
         return f'Comment'
+    
+class Activity(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text, nullable='False')
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+
+    # Relationships
+    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
+    vendor_id = db.Column(db.Integer, db.ForeignKey('vendor.id'))
+    admin_id = db.Column(db.Integer, db.ForeignKey('admin.id'))

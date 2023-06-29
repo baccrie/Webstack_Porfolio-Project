@@ -15,5 +15,5 @@ class Blogpost(FlaskForm):
 class UpdateBlogPost(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = CKEditorField('content', validators=[DataRequired()], widget=TextArea())
-    image = FileField('Post Image', validators=[DataRequired(), FileAllowed(['jpg', 'jpeg', 'gif'])])
+    image = FileField('Post Image', validators=[FileAllowed(['jpg', 'jpeg', 'gif'])])
     submit = SubmitField('Update')

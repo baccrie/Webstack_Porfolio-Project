@@ -74,4 +74,5 @@ def logout():
         flash('You re not logged in pls login first!', 'danger')
         return redirect(url_for('auth.login'))
     logout_user()
-    return 'Successfully logged out'
+    flash('Logout successful', 'success')
+    return redirect(url_for('auth.login'))
