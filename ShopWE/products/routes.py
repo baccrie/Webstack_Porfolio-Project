@@ -50,7 +50,6 @@ def addproduct():
         db.session.add(new_activity)
         db.session.commit()
         flash(f'Product successfully added', 'success')
-        print('No')
         return redirect(url_for('product.addproduct'))
     return render_template('product/add_product.html', form=form, brands=brands, categories=categories)
 
@@ -79,23 +78,22 @@ def updateproduct(id):
 
         if form.image_1.data:
             try:
-                os.unlink(os.path.join(current_app.root_path, 'static/images/products'+ product_to_edit.image_1))
+                os.unlink(os.path.join(current_app.root_path, 'static/images/products/'+ product_to_edit.image_1))
                 product_to_edit.image_1 = save_image(form.image_1.data, 'products')
-                print(product_to_edit.image_1)
             except:
                 product_to_edit.image_1 = save_image(form.image_1.data, 'products')
 
         
         if form.image_2.data:
             try:
-                os.unlink(os.path.join(current_app.root_path, 'static/images/products'+ product_to_edit.image_2))
+                os.unlink(os.path.join(current_app.root_path, 'static/images/products/'+ product_to_edit.image_2))
                 product_to_edit.image_2 = save_image(form.image_2.data, 'products')
             except:
                 product_to_edit.image_2 = save_image(form.image_2.data, 'products')
 
         if form.image_3.data:
             try:
-                os.unlink(os.path.join(current_app.root_path, 'static/images/products'+ product_to_edit.image_3))
+                os.unlink(os.path.join(current_app.root_path, 'static/images/products/'+ product_to_edit.image_3))
                 product_to_edit.image_3 = save_image(form.image_3.data, 'products')
             except:
                 product_to_edit.image_3 = save_image(form.image_3.data, 'products')

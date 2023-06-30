@@ -4,6 +4,8 @@ from flask_login import login_required, login_user, current_user, logout_user
 from ShopWE.models import Customer, Vendor, Product,  Brand, Category, Post, Comment, Admin, Activity
 from ShopWE.blog.forms import Blogpost, UpdateBlogPost
 from ShopWE.generic import save_image, categories, brands
+from flask import current_app
+import os
 
 blog = Blueprint('blog', __name__)
 
@@ -54,6 +56,13 @@ def updatepost(id):
     if form.validate_on_submit():
         post_to_update.title = form.title.data
         post_to_update.content = form.content.data
+
+        if form.image.data:
+            try:
+                os.unlink(os.path.join(current_app.root_path, 'static/images/blogposts/' + post_to_update.image))
+                post_to_update.image = save_image(form.image.data, 'blogposts')
+            except:
+                post_to_update.image = save_image(form.image.data, 'blogposts')
 
         new_activity = Activity(content='You updated a blog post', category='info', admin_id=current_user.id)
         db.session.add(new_activity)
