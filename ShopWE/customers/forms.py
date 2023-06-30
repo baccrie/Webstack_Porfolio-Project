@@ -15,21 +15,21 @@ class CustomerRegister(FlaskForm):
     country = StringField('Country', validators=[DataRequired(), Length(min=2, max=20)])
     state = StringField('State', validators=[DataRequired(), Length(min=2, max=20)])
     city = StringField('City', validators=[DataRequired(), Length(min=2, max=20)])
-    address = StringField('Address', validators=[DataRequired()])
+    address = TextAreaField('Address', validators=[DataRequired()])
     number = TelField('Number', validators=[DataRequired(), Length(min=2, max=20)])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    about = TextAreaField('About')
-    image = FileField('Image', validators=[DataRequired(), FileAllowed(['jpg', 'png', 'jpeg'])])
+    about = TextAreaField('About', validators=[DataRequired()])
+    image = FileField('Image', validators=[DataRequired(), FileAllowed(['jpg', 'jpeg', 'gif'])])
+    
     submit = SubmitField('Sign Up')
 
 
     def validate_username(self, username):
         user_1 = Customer.query.filter_by(username=username.data).first()
         user_2 = Admin.query.filter_by(username=username.data).first()
-        user_3 = Vendor.query.filter_by(username=username.data).first()
 
-        if user_1 or user_2 or user_3:
+        if user_1 or user_2:
             raise ValidationError(f'User with {username.data} already exist! ')
         
     def validate_email(self, email):
@@ -41,7 +41,7 @@ class CustomerRegister(FlaskForm):
             raise ValidationError(f'User with email already exist! ')
         
     def validate_number(self, number):
-        user_1 = Customer.query.filter_by(phone_number=number.data).first()
+        user_1 = Customer.query.filter_by(phone=number.data).first()
         user_2 = Vendor.query.filter_by(phone=number.data).first()
         user_3 = Admin.query.filter_by(phone=number.data).first()
 
@@ -67,9 +67,8 @@ class UpdateCustomerInfo(FlaskForm):
     def validate_username(self, username):
         user_1 = Customer.query.filter_by(username=username.data).first()
         user_2 = Admin.query.filter_by(username=username.data).first()
-        user_3 = Vendor.query.filter_by(username=username.data).first()
 
-        if user_1 or user_2 or user_3:
+        if user_1 or user_2:
             raise ValidationError(f'User with {username.data} already exist! ')
         
     def validate_email(self, email):

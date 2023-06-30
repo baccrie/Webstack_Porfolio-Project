@@ -5,6 +5,7 @@ from ShopWE.customers.forms import CustomerRegister
 from ShopWE.vendors.forms import VendorRegister
 from ShopWE.auth.forms import Login
 from ShopWE.models import Customer, Vendor, Admin, Activity
+from ShopWE.generic import save_image
 
 auth = Blueprint('auth', __name__)
 
@@ -49,16 +50,22 @@ def login():
 @auth.route('/auth/customer/register', methods=['POST', 'GET'])
 def customer_register():
     form = CustomerRegister()
+    
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         customer = Customer(username=form.username.data, email=form.email.data, first_name=form.first_name.data,
                             last_name=form.last_name.data, country=form.country.data, state=form.state.data, city=form.city.data,
-                            phone_number=form.number.data, password=hashed_password)
+                            phone=form.number.data, password=hashed_password, about=form.about.data, address=form.address.data)
+
+        if form.image.data:
+            image = save_image(form.image.data, 'users')
+            customer.profile_image = image
+
         db.session.add(customer)
         new_activity = Activity(content='Your account was registered', customer_id=customer.id)
         db.session.add(new_activity)
         db.session.commit()
-        flash(f'Successfully registerd pls login!', 'primary')
+        flash('Registration successful, you can now login!', 'success')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form, role='customer')
 
