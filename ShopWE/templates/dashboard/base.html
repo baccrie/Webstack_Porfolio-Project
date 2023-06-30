@@ -291,7 +291,7 @@
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="Profile.html">
+        <a class="nav-link collapsed" href="{{ url_for('dash.profile', id=current_user.id)}}">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>

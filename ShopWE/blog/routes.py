@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, url_for, session, request, redirec
 from flask_login import login_required, login_user, current_user, logout_user
 from ShopWE.models import Customer, Vendor, Product,  Brand, Category, Post, Comment, Admin, Activity
 from ShopWE.blog.forms import Blogpost, UpdateBlogPost
-from ShopWE.generic import save_image, category, brand
+from ShopWE.generic import save_image, categories, brands
 
 blog = Blueprint('blog', __name__)
 
@@ -12,7 +12,7 @@ blog = Blueprint('blog', __name__)
 @login_required
 def posts():
     posts = Post.query.all()
-    return render_template('post/posts.html', posts=posts, categories=category(), brandsd=brand())
+    return render_template('post/posts.html', posts=posts, categories=categories(), brands=brands())
 
 
 

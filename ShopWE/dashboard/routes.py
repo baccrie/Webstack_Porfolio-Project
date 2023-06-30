@@ -4,7 +4,7 @@ from flask_login import login_required, login_user, current_user, logout_user
 from ShopWE.customers.forms import CustomerRegister
 from ShopWE.vendors.forms import VendorRegister
 from ShopWE.auth.forms import Login
-from ShopWE.models import Customer, Vendor, Product,  Brand, Category, Activity, Post
+from ShopWE.models import Customer, Vendor, Product,  Brand, Category, Activity, Post, Admin
 from ShopWE.dashboard.forms import Addproduct, Addbrand, Addcategory, Updateproduct
 from ShopWE.generic import save_image
 from flask import current_app
@@ -146,6 +146,31 @@ def deleteproduct(id):
 
     return redirect(url_for('dash.home'))
 
+
+@dash.route('/dash/<int:id>/profile', methods=['POST', 'GET'])
+@login_required
+def profile(id):
+    if type(current_user) == 'Admin':
+        user_profile = Admin.query.get_or_404(id)
+
+    elif type(current_user) == 'Customer':
+        user_profile = Customer.query.get_or_404(id)
+
+    else:
+        user_profile = Vendor.query.get_or_404(id)
+
+    if request.method == 'POST':
+        current_password = request.form.get('password')
+        print(current_password)
+        return request.referrer
+
+    return render_template('dashboard/profile.html')
+
+@dash.route('/dash/myproducts', methods=['POST', 'GET'])
+@login_required
+def vendor_products():
+    products = current_user.products
+    return render_template('dashboard/products.html', products=products)
 
 @dash.route('/dash/addbrand', methods=['POST', 'GET'])
 @login_required

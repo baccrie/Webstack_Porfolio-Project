@@ -60,7 +60,7 @@
                     <a href="#" class="showcase-category">{{ product.category.name }}</a>
                 
                     <h3>
-                      <a href="{{ url_for('product.singleproduct', id=product.id)}}" class="showcase-title">{{ product.name }}</a>
+                      <a href="{{ url_for('product.singleproduct', id=product.id)}}" class="showcase-title">{{ product.name | truncate(30)  }}</a>
                     </h3>
                 
                     <div class="showcase-rating">
@@ -90,5 +90,43 @@
         </div>
   
       </div>
+
+
+
+    <div class="blog">
+
+      <div class="container">
+
+        <div class="blog-container has-scrollbar">
+
+          {% for post in posts %}
+          <div class="blog-card">
+
+            <a href="#">
+              <img src="{{ url_for('static', filename='images/blogposts/' + post.image)}}" alt="Clothes Retail KPIs 2021 Guide for Clothes Executives" width="300" class="blog-banner">
+            </a>
+
+            <div class="blog-content">
+
+              <a href="#" class="blog-category">News</a>
+
+              <a href="#">
+                <h3 class="blog-title">{{ post.title }}</h3>
+              </a>
+
+              <p class="blog-meta">
+                By <cite>{{ post.poster.username }}</cite> / <time datetime="2022-04-06">{{ post.date_posted }}</time>
+              </p>
+
+            </div>
+
+          </div>
+          {% endfor %}
+        </div>
+
+      </div>
+
+    </div>
+
 
 {% endblock content %}

@@ -1,7 +1,7 @@
 import os
 import secrets
 from flask import current_app
-from ShopWE.models import Brand, Category
+from ShopWE.models import Brand, Category, Post
 
 def save_image(photo, type):
     random_hex  = secrets.token_hex(8)
@@ -11,10 +11,14 @@ def save_image(photo, type):
     photo.save(file_path)
     return file_name
 
-def brand():
+def brands():
     brands = Brand.query.all()
     return brands
 
-def category():
+def categories():
     categories = Category.query.all()
     return categories
+
+def posts():
+    posts = Post.query.all()
+    return posts

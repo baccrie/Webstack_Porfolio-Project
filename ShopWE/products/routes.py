@@ -5,7 +5,7 @@ from ShopWE.customers.forms import CustomerRegister
 from ShopWE.vendors.forms import VendorRegister
 from ShopWE.auth.forms import Login
 from ShopWE.models import Product, Vendor
-from ShopWE.generic import brand, category
+from ShopWE.generic import brands, categories
 
 product = Blueprint('product', __name__)
 
@@ -13,4 +13,4 @@ product = Blueprint('product', __name__)
 def singleproduct(id):
     product = Product.query.get_or_404(id)
 
-    return render_template('product/product.html', product=product, brands=brand(), categories=category())
+    return render_template('product/product.html', product=product, brands=brands(), categories=categories())
