@@ -21,8 +21,8 @@ def posts():
 def addpost():
     form = Blogpost()
     if not isinstance(current_user, Admin):
-        flash(f'This page is only accessible to admins', 'danger')
-        return redirect(url_for('home'))
+        flash('Oops! you were redirected from an admin only page', 'danger')
+        return redirect(url_for('dash.home'))
     
     if form.validate_on_submit():
         new_post = Post(title=form.title.data, content=form.content.data)
@@ -38,7 +38,7 @@ def addpost():
         flash(f'Posts successfully added', 'success')
         return redirect(url_for('blog.addpost'))
     
-    return render_template('dashboard/add_post.html', form=form)
+    return render_template('blog/add_post.html', form=form)
 
 
 @blog.route('/dash/<int:id>/updatepost', methods=['POST', 'GET'])
@@ -48,8 +48,8 @@ def updatepost(id):
     post_to_update = Post.query.get_or_404(id)
 
     if not isinstance(current_user, Admin):
-        flash(f'This page is only accessible to admins', 'danger')
-        return redirect(url_for('home'))
+        flash('Oops! you were redirected from an admin only page', 'danger')
+        return redirect(url_for('dash.home'))
     
     if form.validate_on_submit():
         post_to_update.title = form.title.data
@@ -63,4 +63,13 @@ def updatepost(id):
 
     form.title.data = post_to_update.title
     form.content.data = post_to_update.content
-    return render_template('dashboard/update_post.html', form=form)
+    return render_template('blog/update_post.html', form=form)
+
+@blog.route('/blog/posts')
+def allposts():
+    if not isinstance(current_user, Admin):
+        flash('Oops! you were redirected from an admin only page', 'danger')
+        return redirect(url_for('dash.home'))
+    
+    posts = Post.query.all()
+    return render_template('blog/all_posts.html', posts=posts)

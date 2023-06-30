@@ -321,7 +321,7 @@
         </a>
         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="{{ url_for('dash.addproduct') }}">
+            <a href="{{ url_for('product.addproduct') }}">
               <i class="bi bi-circle"></i><span>Product</span>
             </a>
           </li>
@@ -330,7 +330,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="{{ url_for('dash.vendor_products', id=current_user.id) }}">
+        <a class="nav-link collapsed" href="{{ url_for('product.vendor_products', id=current_user.id) }}">
           <i class="bi bi-grid"></i>
           <span>My Products</span>
         </a>
@@ -381,9 +381,16 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="index.html">
+        <a class="nav-link collapsed" href="{{ url_for('product.allproducts')}}">
           <i class="bi bi-grid"></i>
           <span>Products</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('blog.allposts')}}">
+          <i class="bi bi-grid"></i>
+          <span>Posts</span>
         </a>
       </li>
 
@@ -419,7 +426,7 @@
         </div>
         <div class="modal-body">
           <div class="row">
-            <form action="{{ url_for('dash.addproduct') }}" method="POST">
+            <form action="{{ url_for('product.addproduct') }}" method="POST">
             <div class="col mb-3">
              
             </div>
