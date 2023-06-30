@@ -61,6 +61,7 @@ class Vendor(db.Model, UserMixin):
     country = db.Column(db.String(30), nullable=False)
     state = db.Column(db.String(30), nullable=False)
     city = db.Column(db.String(30), nullable=False)
+    address = db.Column(db.Text)
     about = db.Column(db.String(1000))
     phone = db.Column(db.String(30), nullable=False, unique=True)
 
@@ -89,8 +90,9 @@ class Admin(db.Model, UserMixin):
     country = db.Column(db.String(30), nullable=False)
     state = db.Column(db.String(30), nullable=False)
     city = db.Column(db.String(30), nullable=False)
-    country = db.Column(db.String(30), nullable=False)
-    phone_number = db.Column(db.String(30), nullable=False, unique=True)
+    address = db.Column(db.Text)
+    about = db.Column(db.String(1000))
+    phone = db.Column(db.String(30), unique=True)
     profile_image = db.Column(db.String(30), default='default.jpg')
 
     password = db.Column(db.String(50))
@@ -130,8 +132,9 @@ class Customer(db.Model, UserMixin):
     country = db.Column(db.String(30), nullable=False)
     state = db.Column(db.String(30), nullable=False)
     city = db.Column(db.String(30), nullable=False)
-    country = db.Column(db.String(30), nullable=False)
-    phone_number = db.Column(db.String(30), nullable=False, unique=True)
+    address = db.Column(db.Text)
+    about = db.Column(db.String(1000))
+    phone = db.Column(db.String(30), unique=True)
     profile_image = db.Column(db.String(30), default='default.jpg')
 
 
@@ -164,6 +167,7 @@ class Comment(db.Model):
 class Activity(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable='False')
+    category = db.Column(db.String(120))
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
 
     # Relationships

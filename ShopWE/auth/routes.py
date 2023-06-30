@@ -20,17 +20,18 @@ def login():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             if isinstance(user, Customer):
                 session['type'] = 'Customer'
-                new_activity = Activity(content='You logged in', customer_id=user.id)
+                new_activity = Activity(content='You logged in', category='success', customer_id=user.id)
 
             elif isinstance(user, Vendor):
                 session['type'] = 'Vendor'
-                new_activity = Activity(content='You logged in', vendor_id=user.id)
+                new_activity = Activity(content='You logged in', category='success', vendor_id=user.id)
     
             elif isinstance(user, Admin):
                 session['type'] = 'Admin'
-                new_activity = Activity(content='You logged in', admin_id=user.id)
+                new_activity = Activity(content='You logged in', category='success', admin_id=user.id)
 
             db.session.add(new_activity)
+            print(new_activity.category)
             db.session.commit()
             login_user(user)
             flash('Successfully Login', 'primary')
@@ -72,10 +73,10 @@ def vendor_register():
                             phone=form.number.data, password=hashed_password)
         
         db.session.add(vendor)
-        new_activity = Activity(content='Your account was registered', vendor_id=vendor.id)
+        new_activity = Activity(content='Your account was registered', vendor_id=vendor.id, category='success')
         db.session.add(new_activity)
 
-        db.session.commit()
+        #db.session.commit()
         flash(f'Successfully registered pls login!', 'primary')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form, role='vendor')
@@ -88,13 +89,13 @@ def logout():
         return redirect(url_for('auth.login'))
     
     if isinstance(current_user, Customer):
-        new_activity = Activity(content='You logged out', customer_id=current_user.id)
+        new_activity = Activity(content='You logged out', category='danger', customer_id=current_user.id)
 
     if isinstance(current_user, Vendor):
-        new_activity = Activity(content='You logged out', vendor_id=current_user.id)
+        new_activity = Activity(content='You logged out', category='danger', vendor_id=current_user.id)
     
     if isinstance(current_user, Admin):
-        new_activity = Activity(content='You logged out', admin_id=current_user.id)
+        new_activity = Activity(content='You logged out', category='danger', admin_id=current_user.id)
 
     db.session.add(new_activity)
     db.session.commit()

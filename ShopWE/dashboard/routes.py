@@ -1,8 +1,8 @@
 from ShopWE import app, db, bcrypt, flash
 from flask import Blueprint, render_template, url_for, session, request, redirect
 from flask_login import login_required, login_user, current_user, logout_user
-from ShopWE.customers.forms import CustomerRegister
-from ShopWE.vendors.forms import VendorRegister
+from ShopWE.customers.forms import CustomerRegister, UpdateCustomerInfo, UpdateCustomerPassword
+from ShopWE.vendors.forms import VendorRegister, UpdateVendorInfo, UpdateVendorPassword
 from ShopWE.auth.forms import Login
 from ShopWE.models import Customer, Vendor, Product,  Brand, Category, Activity, Post, Admin
 from ShopWE.dashboard.forms import Addproduct, Addbrand, Addcategory, Updateproduct
@@ -16,7 +16,7 @@ dash = Blueprint('dash', __name__)
 @login_required
 def home():
     form1 = Addbrand()
-    posts = Post.query.limit(5).all()
+    posts = Post.query.limit(4).all()
     products = Product.query.order_by(Product.date.desc()).limit(5).all()
     activities = current_user.activities[:5]
     return render_template('dashboard/home.html', form1=form1, posts=posts, products=products, activities=activities)
@@ -150,25 +150,59 @@ def deleteproduct(id):
 @dash.route('/dash/<int:id>/profile', methods=['POST', 'GET'])
 @login_required
 def profile(id):
-    if type(current_user) == 'Admin':
+
+    if isinstance(current_user, Admin):
         user_profile = Admin.query.get_or_404(id)
 
-    elif type(current_user) == 'Customer':
+    elif isinstance(current_user, Customer):
+        print('Yes')
+        form = UpdateCustomerInfo()
+        form1 = UpdateCustomerPassword()
         user_profile = Customer.query.get_or_404(id)
 
-    else:
+        form.email.data = current_user.email
+        form.first_name.data = current_user.first_name
+        form.last_name.data = current_user.last_name
+        form.country.data = current_user.country
+        form.state.data = current_user.state
+        form.address.data = current_user.address
+        form.city.data = current_user.city
+        form.number.data = current_user.phone
+        form.about.data = current_user.about
+
+    elif isinstance(current_user, Vendor):
         user_profile = Vendor.query.get_or_404(id)
+        form = UpdateVendorInfo()
+        form1 = UpdateVendorPassword()
+        print('yes')
 
-    if request.method == 'POST':
-        current_password = request.form.get('password')
-        print(current_password)
-        return request.referrer
+        form.email.data = current_user.email
+        form.name.data = current_user.name
+        form.country.data = current_user.country
+        form.state.data = current_user.state
+        form.address.data = current_user.address
+        form.city.data = current_user.city
+        form.number.data = current_user.phone
+        form.about.data = current_user.about
 
-    return render_template('dashboard/profile.html')
+        print('yes')
+
+    if form.validate_on_submit():
+        print('no')
+
+    return render_template('dashboard/profile.html', form=form, form1=form1)
 
 @dash.route('/dash/myproducts', methods=['POST', 'GET'])
 @login_required
 def vendor_products():
+    if not isinstance(current_user, Vendor):
+        flash('You re not authorized to access this page', 'danger')
+        return redirect(url_for('dash.home'))
+    
+    if not current_user.products:
+        flash('You dont have any product yet, visit the addproduct page to add new product', 'info')
+        return redirect(url_for('dash.home'))
+    
     products = current_user.products
     return render_template('dashboard/products.html', products=products)
 

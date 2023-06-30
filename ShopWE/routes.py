@@ -8,4 +8,5 @@ from ShopWE.generic import brands, categories, posts
 @app.route('/home')
 def home():
     products = Product.query.all()
-    return render_template('home.html', brands=brands(), categories=categories(), products=products, posts=posts())
+    posts = Post.query.limit(4).all()
+    return render_template('home.html', brands=brands(), categories=categories(), products=products, posts=posts)

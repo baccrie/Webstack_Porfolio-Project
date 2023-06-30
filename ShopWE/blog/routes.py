@@ -29,16 +29,17 @@ def addpost():
         if form.image.data:
             image_name = save_image(form.image.data, 'blogposts')
             new_post.image_1 = image_name
-        
+            
+        new_activity = Activity(content='You Published a new blog post', category='success', admin_id=current_user.id)
+        db.sesion.add(new_activity)
         db.session.add(new_post)
 
-        new_activity = Activity(content='You added new post to the database', admin_id=current_user.id)
-        db.session.add(new_activity)
         db.session.commit()
         flash(f'Posts successfully added', 'success')
         return redirect(url_for('blog.addpost'))
     
     return render_template('dashboard/add_post.html', form=form)
+
 
 @blog.route('/dash/<int:id>/updatepost', methods=['POST', 'GET'])
 @login_required
@@ -51,7 +52,15 @@ def updatepost(id):
         return redirect(url_for('home'))
     
     if form.validate_on_submit():
-        pass
+        post_to_update.title = form.title.data
+        post_to_update.content = form.content.data
+
+        new_activity = Activity(content='You updated a blog post', category='info', admin_id=current_user.id)
+        db.session.add(new_activity)
+        db.session.commit()
+        flash(f'Post has been updated', 'success')
+        return redirect(url_for('blog.updatepost', id=post_to_update.id))
 
     form.title.data = post_to_update.title
+    form.content.data = post_to_update.content
     return render_template('dashboard/update_post.html', form=form)

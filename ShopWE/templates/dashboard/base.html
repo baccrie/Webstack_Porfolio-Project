@@ -330,9 +330,9 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="index.html">
+        <a class="nav-link collapsed" href="{{ url_for('dash.vendor_products', id=current_user.id) }}">
           <i class="bi bi-grid"></i>
-          <span>All products</span>
+          <span>My Products</span>
         </a>
       </li>
 
