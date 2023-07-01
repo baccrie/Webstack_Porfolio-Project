@@ -53,14 +53,14 @@ class UpdateCustomerInfo(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
     first_name = StringField('First Name', validators=[DataRequired(), Length(min=2, max=20)])
-    last_name = StringField('First Name', validators=[DataRequired(), Length(min=2, max=20)])
+    last_name = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=20)])
     country = StringField('Country', validators=[DataRequired(), Length(min=2, max=20)])
     state = StringField('State', validators=[DataRequired(), Length(min=2, max=20)])
     city = StringField('City', validators=[DataRequired(), Length(min=2, max=20)])
     address = StringField('Address', validators=[DataRequired()])
     number = TelField('Number', validators=[DataRequired(), Length(min=2, max=20)])
     about = TextAreaField('About')
-    image = FileField('Image', validators=[DataRequired(), FileAllowed(['jpg', 'png', 'jpeg'])])
+    #image = FileField('Image', validators=[DataRequired(), FileAllowed(['jpg', 'png', 'jpeg'])])
     submit = SubmitField('Save Changes')
 
 

@@ -6,7 +6,7 @@ from ShopWE.vendors.forms import VendorRegister, UpdateVendorInfo, UpdateVendorP
 from ShopWE.auth.forms import Login
 from ShopWE.models import Customer, Vendor, Product,  Brand, Category, Activity, Post, Admin
 from ShopWE.dashboard.forms import Addproduct, Addbrand, Addcategory, Updateproduct
-from ShopWE.generic import save_image
+from ShopWE.generic import save_image, brands, categories
 from flask import current_app
 import os
 
@@ -15,7 +15,9 @@ product = Blueprint('product', __name__)
 @product.route('/product/<int:id>', methods=['POST', 'GET'])
 def singleproduct(id):
     product = Product.query.get_or_404(id)
-    return render_template('product/single_product.html', product=product, brands=brands(), categories=categories())
+    brand = Brand.query.filter_by(id=product.brand_id).first()
+    related_product = brand.products
+    return render_template('product/single_product.html', product=product, brands=brands(), categories=categories(), related_products=related_product, id=id)
 
 
 @product.route('/dash/addproduct', methods=['POST', 'GET'])

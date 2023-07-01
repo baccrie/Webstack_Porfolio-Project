@@ -108,7 +108,7 @@
           <button class="action-btn">
             <ion-icon name="cart-outline"></ion-icon>
             <i class="bxs-cart-alt"></i>
-            <span class="count">3</span>
+            <span class="count">{{ session['cart'] | length }}</span>
           </button>
 
           {% if current_user.is_authenticated %}

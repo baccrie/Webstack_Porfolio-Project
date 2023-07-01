@@ -43,6 +43,7 @@ from ShopWE.customers.routes import customer
 from ShopWE.dashboard.routes import dash
 from ShopWE.blog.routes import blog
 from ShopWE.products.routes import product
+from ShopWE.carts.routes import cart
 from ShopWE import routes
 
 app.register_blueprint(auth)
@@ -50,6 +51,7 @@ app.register_blueprint(customer)
 app.register_blueprint(dash)
 app.register_blueprint(blog)
 app.register_blueprint(product)
+app.register_blueprint(cart)
 
 login_manager.login_view = 'auth.login'
 login_manager.login_message = 'You must log-in to access this page'
