@@ -14,7 +14,7 @@ blog = Blueprint('blog', __name__)
 @login_required
 def posts():
     posts = Post.query.all()
-    return render_template('post/posts.html', posts=posts, categories=categories(), brands=brands())
+    return render_template('blog/posts.html', posts=posts, categories=categories(), brands=brands())
 
 
 

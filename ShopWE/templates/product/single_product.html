@@ -40,54 +40,41 @@
             <div class="tab-content pt-2">
 
               <div class="tab-pane fade show active profile-overview" id="profile-overview">
-
-                <h1 class="card-title">PRODUCT DESCRIPTION</h1>
-
-                {{ product.description | safe }}
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                  <div class="col-lg-9 col-md-8">{{ current_user.first_name }} {{ current_user.last_name }}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Username</div>
-                  <div class="col-lg-9 col-md-8">{{ current_user.username }}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Email</div>
-                  <div class="col-lg-9 col-md-8">{{ current_user.email }}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Role</div>
-                  <div class="col-lg-9 col-md-8">{{ role }}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Country</div>
-                  <div class="col-lg-9 col-md-8">{{ current_user.country }}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">State</div>
-                  <div class="col-lg-9 col-md-8">{{ current_user.state }}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">City</div>
-                  <div class="col-lg-9 col-md-8">{{ current_user.city }}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Address</div>
-                  <div class="col-lg-9 col-md-8">{{ current_user.address }}</div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Phone</div>
-                  <div class="col-lg-9 col-md-8">{{ current_user.phone }}</div>
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">PRODUCT</h5>
+      
+                    <!-- Default Tabs -->
+                    <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
+                      <li class="nav-item flex-fill" role="presentation">
+                        <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-justified" type="button" role="tab" aria-controls="home" aria-selected="true">Product Details</button>
+                      </li>
+                      <li class="nav-item flex-fill" role="presentation">
+                        <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-justified" type="button" role="tab" aria-controls="profile" aria-selected="false">Product Description</button>
+                      </li>
+                      <li class="nav-item flex-fill" role="presentation">
+                        <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-justified" type="button" role="tab" aria-controls="contact" aria-selected="false">Comments</button>
+                      </li>
+                    </ul>
+                    <div class="tab-content pt-2" id="myTabjustifiedContent">
+                      <div class="tab-pane fade show active" id="home-justified" role="tabpanel" aria-labelledby="home-tab">
+                        {{ product.name }}
+                        <br>
+                        {{ product.owner.name }}
+                        <br>
+                        <a href="" class="btn btn-primary">Add to Cart</a>
+                      </div>
+                      <div class="tab-pane fade" id="profile-justified" role="tabpanel" aria-labelledby="profile-tab">
+                        {{ product.description | safe }}
+                      </div>
+                      </div>
+                      <div class="tab-pane fade" id="contact-justified" role="tabpanel" aria-labelledby="contact-tab">
+                        {{ product.description | safe }}
+                      </div>
+                      </div>
+                    </div><!-- End Default Tabs -->
+      
+                  </div>
                 </div>
 
               </div>
@@ -102,6 +89,5 @@
   </section>
 
 </main>
-
 
 {% endblock content %}
