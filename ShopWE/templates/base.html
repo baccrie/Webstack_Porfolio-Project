@@ -2,781 +2,493 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
   <title>{% block title %}{% endblock title %}</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 
-  <!--
-    - favicon
-  -->
-  <link rel="shortcut icon" href="./assets/images/logo/favicon.ico" type="image/x-icon">
+  <!-- Favicons -->
+  <link href="tmp" rel="icon">
+  <link href="tmp" rel="apple-touch-icon">
 
-  <!--
-    - custom css link
-  -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style-prefix.css') }}">
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-  <!--
-    - google font link
-  -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+  <!-- Vendor CSS Files -->
+  <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/quill/quill.snow.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{{ url_for('static', filename='assets/css/style.css') }}" rel="stylesheet">
+
 
 </head>
 
 <body>
 
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
 
-  <div class="overlay" data-overlay></div>
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/img/logo.png" alt="">
+        <span class="d-none d-lg-block">ShopWE</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
 
-  <!--
-    - MODAL
-  -->
+    <div class="search-bar">
+      <form class="search-form d-flex align-items-center" method="POST" action="#">
+        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+      </form>
+    </div><!-- End Search Bar -->
 
-  <div class="modal" data-modal>
+    {% if session['type'] == 'Admin' %}
+      {% set role='Admin' %}
+    {% elif session['type'] == 'Customer' %}
+      {% set role='Customer' %}
+    {% elif session['type'] == 'Vendor' %}
+      {% set role='Vendor' %}
+    {% endif %}
 
-    <div class="modal-close-overlay" data-modal-overlay></div>
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
 
-    <div class="modal-content">
+        <li class="nav-item d-block d-lg-none">
+          <a class="nav-link nav-icon search-bar-toggle " href="#">
+            <i class="bi bi-search"></i>
+          </a>
+        </li><!-- End Search Icon-->
 
-      <button class="modal-close-btn" data-modal-close>
-        <ion-icon name="close-outline"></ion-icon>
-      </button>
+        <li class="nav-item dropdown">
 
-  
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <a href="{{ '/carts' }}"><i class='bi bi-cart'></i></a>
+            <span class="badge bg-primary badge-number">{{ session['cart'] | length }}</span>
+          </a><!-- End Messages Icon -->
 
-    
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+            <li class="dropdown-header">
+              You have 3 new messages
+              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
 
-    </div>
+            <li class="message-item">
+              <a href="#">
+                <img src="assets/img/messages-1.jpg" alt="" class="rounded-circle">
+                <div>
+                  <h4>Maria Hudson</h4>
+                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                  <p>4 hrs. ago</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
 
-  </div>
+            <li class="message-item">
+              <a href="#">
+                <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
+                <div>
+                  <h4>Anna Nelson</h4>
+                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                  <p>6 hrs. ago</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
 
+            <li class="message-item">
+              <a href="#">
+                <img src="assets/img/messages-3.jpg" alt="" class="rounded-circle">
+                <div>
+                  <h4>David Muldon</h4>
+                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                  <p>8 hrs. ago</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
 
+            <li class="dropdown-footer">
+              <a href="#">Show all messages</a>
+            </li>
 
+          </ul><!-- End Messages Dropdown Items -->
 
+        </li><!-- End Messages Nav -->
 
-  <!--
-    - NOTIFICATION TOAST
-  -->
+        {% if current_user.is_authenticated %}
 
-  <div class="notification-toasti" data-toast>
+          <li class="nav-item dropdown pe-3">
 
-    <button class="toast-close-btn" data-toast-close>
-      <ion-icon name="close-outline"></ion-icon>
-    </button>
+            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
 
-  </div>
+              {% if (role == 'Admin' or role == 'Customer') %}
+              <img src="{{ url_for('static', filename='images/users/' + current_user.profile_image )}}" alt="Profile" class="rounded-circle">
+              {% endif %}
+              <span class="d-none d-md-block dropdown-toggle ps-2">{{ current_user.last_name }}. {{ current_user.first_name }}</span>
+            </a><!-- End Profile Iamge Icon -->
 
-
-
-
-
-  <!--
-    - HEADER
-  -->
-
-  <header">
-    <div class="header-main">
-
-      <div class="container">
-
-        <a href="#" class="header-logo">
-         <h2>ShopWE</h2>
-        </a>
-
-        <div class="header-search-container">
-
-          <input type="search" name="search" class="search-field" placeholder="Enter your product name...">
-
-          <button class="search-btn">
-            <ion-icon name="search-outline"></ion-icon>
-          </button>
-
-        </div>
-
-        <div class="header-user-actions">
-
-          {% if current_user.is_authenticated %}
-          <button class="action-btn">
-            <a href="{{ url_for('dash.home') }}"><ion-icon name="person-circle-outline"></ion-icon></a>
-          </button>
-          {% endif %}
-
-          <button class="action-btn">
-            <a href="{{ url_for('cart.cart_items')}}"><ion-icon name="cart-outline"></ion-icon></a>
-            <i class="bxs-cart-alt"></i>
-            <span class="count">{{ session['cart'] | length }}</span>
-          </button>
-
-          {% if current_user.is_authenticated %}
-          <button class="action-btn">
-            <a href="{{ url_for('auth.logout') }}"><ion-icon name="log-out-outline"></ion-icon></a>
-          </button>
-          {% endif %}
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <nav class="desktop-navigation-menu">
-
-      <div class="container">
-
-        <ul class="desktop-menu-category-list">
-
-          <li class="menu-category">
-            <a href="{{ url_for('home') }}" class="menu-title">Home</a>
-          </li>
-
-          <li class="menu-category">
-            <a href="#" class="menu-title">Shop</a>
-          </li>
-
-          <li class="menu-category">
-            <a href="#" class="menu-title">Brand</a>
-
-            <ul class="dropdown-list">
-              {% for brand in brands %}
-              <li class="dropdown-item">
-                <a href="#">{{ brand.name }}</a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+              <li class="dropdown-header">
+                <h6>{{ current_user.first_name }}</h6>
+                <span>{{ role }}</span>
               </li>
-              {% endfor %}
-
-            </ul>
-          </li>
-
-          <li class="menu-category">
-            <a href="#" class="menu-title">Category</a>
-
-            <ul class="dropdown-list">
-              {% for category in categories %}
-              <li class="dropdown-item">
-                <a href="#">{{ category.name }}</a>
-              </li>
-              {% endfor %}
-
-            </ul>
-          </li>
-
-          <li class="menu-category">
-            <a href="{{ url_for('blog.posts')}}" class="menu-title">Blog</a>
-          </li>
-
-          <li class="menu-category">
-            <a href="#" class="menu-title">Shop's Near me</a>
-          </li>
-
-          {% if not current_user.is_authenticated %}
-          <li class="menu-category">
-            <a href="{{ url_for('auth.login') }}" class="menu-title">Login</a>
-          </li>
-          {% endif %}
-
-          {% if not current_user.is_authenticated %}
-          <li class="menu-category">
-            <a href="#" class="menu-title">Register</a>
-
-            <ul class="dropdown-list">
-
-              <li class="dropdown-item">
-                <a href="{{ url_for('auth.vendor_register') }}">Vendor</a>
+              <li>
+                <hr class="dropdown-divider">
               </li>
 
-              <li class="dropdown-item">
-                <a href="{{ url_for('auth.customer_register') }}">Regular User</a>
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="{{ url_for('dash.profile', id=current_user.id) }}">
+                  <i class="bi bi-person"></i>
+                  <span>My Profile</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
               </li>
 
-            </ul>
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="{{ url_for('dash.home') }}">
+                  <i class="bi bi-gear"></i>
+                  <span>Dashboard</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="faq.html">
+                  <i class="bi bi-question-circle"></i>
+                  <span>Need Help?</span>
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="{{ url_for('auth.logout' )}}">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Sign Out</span>
+                </a>
+              </li>
+
+            </ul><!-- End Profile Dropdown Items -->
           </li>
-          {% endif %}
 
-        </ul>
+        {% else %}
 
-      </div>
+        <li class="nav-item dropdown pe-3">
 
-    </nav>
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <span class="d-none d-md-block dropdown-toggle ps-2">Login/Register</span>
+          </a><!-- End Profile Iamge Icon -->
 
-    <div class="mobile-bottom-navigation">
-
-      <button class="action-btn" data-mobile-menu-open-btn>
-        <ion-icon name="menu-outline"></ion-icon>
-      </button>
-
-      <button class="action-btn">
-        <ion-icon name="bag-handle-outline"></ion-icon>
-
-        <span class="count">{{ session['cart'] | length }}</span>
-      </button>
-
-      <button class="action-btn">
-        <ion-icon name="home-outline"></ion-icon>
-      </button>
-
-      <button class="action-btn">
-        <ion-icon name="heart-outline"></ion-icon>
-
-        <span class="count">{{ session['cart'] | length }}</span>
-      </button>
-
-    </div>
-
-    <nav class="mobile-navigation-menu  has-scrollbar" data-mobile-menu>
-
-      <div class="menu-top">
-        <h2 class="menu-title">Menu</h2>
-
-        <button class="menu-close-btn" data-mobile-menu-close-btn>
-          <ion-icon name="close-outline"></ion-icon>
-        </button>
-      </div>
-
-      <ul class="mobile-menu-category-list">
-
-        <li class="menu-category">
-          <a href="#" class="menu-title">Home</a>
-        </li>
-
-        <li class="menu-category">
-
-          <button class="accordion-menu" data-accordion-btn>
-            <p class="menu-title">Men's</p>
-
-            <div>
-              <ion-icon name="add-outline" class="add-icon"></ion-icon>
-              <ion-icon name="remove-outline" class="remove-icon"></ion-icon>
-            </div>
-          </button>
-
-          <ul class="submenu-category-list" data-accordion>
-
-            <li class="submenu-category">
-              <a href="#" class="submenu-title">Shirt</a>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6></h6>
+              <span></span>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
             </li>
 
-            <li class="submenu-category">
-              <a href="#" class="submenu-title">Shorts & Jeans</a>
+           
+            <li>
+              <hr class="dropdown-divider">
             </li>
 
-            <li class="submenu-category">
-              <a href="#" class="submenu-title">Safety Shoes</a>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{{ url_for('auth.login' )}}">
+                <i class="ri-login-box-line"></i>
+                <span>Login</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
             </li>
 
-            <li class="submenu-category">
-              <a href="#" class="submenu-title">Wallet</a>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{{ url_for('auth.customer_register' )}}">
+                <i class="ri-registered-line
+                "></i>
+                <span>User Register</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
             </li>
 
-          </ul>
-
-        </li>
-
-        <li class="menu-category">
-
-          <button class="accordion-menu" data-accordion-btn>
-            <p class="menu-title">Women's</p>
-
-            <div>
-              <ion-icon name="add-outline" class="add-icon"></ion-icon>
-              <ion-icon name="remove-outline" class="remove-icon"></ion-icon>
-            </div>
-          </button>
-
-          <ul class="submenu-category-list" data-accordion>
-
-            <li class="submenu-category">
-              <a href="#" class="submenu-title">Dress & Frock</a>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{{ url_for('auth.vendor_register' )}}">
+                <i class="ri-registered-line
+                "></i>
+                <span>Vendor Register</span>
+              </a>
             </li>
 
-            <li class="submenu-category">
-              <a href="#" class="submenu-title">Earrings</a>
-            </li>
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
 
-            <li class="submenu-category">
-              <a href="#" class="submenu-title">Necklace</a>
-            </li>
-
-            <li class="submenu-category">
-              <a href="#" class="submenu-title">Makeup Kit</a>
-            </li>
-
-          </ul>
-
-        </li>
-
-        <li class="menu-category">
-
-          <button class="accordion-menu" data-accordion-btn>
-            <p class="menu-title">Jewelry</p>
-
-            <div>
-              <ion-icon name="add-outline" class="add-icon"></ion-icon>
-              <ion-icon name="remove-outline" class="remove-icon"></ion-icon>
-            </div>
-          </button>
-
-          <ul class="submenu-category-list" data-accordion>
-
-            <li class="submenu-category">
-              <a href="#" class="submenu-title">Earrings</a>
-            </li>
-
-            <li class="submenu-category">
-              <a href="#" class="submenu-title">Couple Rings</a>
-            </li>
-
-            <li class="submenu-category">
-              <a href="#" class="submenu-title">Necklace</a>
-            </li>
-
-            <li class="submenu-category">
-              <a href="#" class="submenu-title">Bracelets</a>
-            </li>
-
-          </ul>
-
-        </li>
-
-        <li class="menu-category">
-
-          <button class="accordion-menu" data-accordion-btn>
-            <p class="menu-title">Perfume</p>
-
-            <div>
-              <ion-icon name="add-outline" class="add-icon"></ion-icon>
-              <ion-icon name="remove-outline" class="remove-icon"></ion-icon>
-            </div>
-          </button>
-
-          <ul class="submenu-category-list" data-accordion>
-
-            <li class="submenu-category">
-              <a href="#" class="submenu-title">Clothes Perfume</a>
-            </li>
-
-            <li class="submenu-category">
-              <a href="#" class="submenu-title">Deodorant</a>
-            </li>
-
-            <li class="submenu-category">
-              <a href="#" class="submenu-title">Flower Fragrance</a>
-            </li>
-
-            <li class="submenu-category">
-              <a href="#" class="submenu-title">Air Freshener</a>
-            </li>
-
-          </ul>
-
-        </li>
-
-        <li class="menu-category">
-          <a href="#" class="menu-title">Blog</a>
-        </li>
-
-        <li class="menu-category">
-          <a href="#" class="menu-title">Hot Offers</a>
-        </li>
-
+        {% endif %}
       </ul>
+    </nav><!-- End Icons Navigation -->
 
-      <div class="menu-bottom">
+  </header><!-- End Header -->
 
-        <ul class="menu-category-list">
+  <!-- ======= Sidebar ======= -->
+  
+  <aside id="sidebar" class="sidebar">
 
-          <li class="menu-category">
+    <ul class="sidebar-nav" id="sidebar-nav">
 
-            <button class="accordion-menu" data-accordion-btn>
-              <p class="menu-title">Language</p>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('home') }}">
+          <i class="bi bi-house-exclamation-fill"></i>
+          <span>Home</span>
+        </a>
+      </li>
 
-              <ion-icon name="caret-back-outline" class="caret-back"></ion-icon>
-            </button>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('dash.home') }}">
+          <i class="bx bxs-dashboard"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
 
-            <ul class="submenu-category-list" data-accordion>
+      {% if current_user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('dash.profile', id=current_user.id)}}">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
+        </a>
+      </li>
+      {% endif %}
 
-              <li class="submenu-category">
-                <a href="#" class="submenu-title">English</a>
-              </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="faq.html">
+          <i class="bi bi-question-circle"></i>
+          <span>F.A.Q</span>
+        </a>
+      </li><!-- End F.A.Q Page Nav -->
 
-              <li class="submenu-category">
-                <a href="#" class="submenu-title">Espa&ntilde;ol</a>
-              </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="pages-contact.html">
+          <i class="bi bi-envelope"></i>
+          <span>Contact</span>
+        </a>
+      </li><!-- End Contact Page Nav -->
 
-              <li class="submenu-category">
-                <a href="#" class="submenu-title">Fren&ccedil;h</a>
-              </li>
+      <br>
 
-            </ul>
-
-          </li>
-
-          <li class="menu-category">
-            <button class="accordion-menu" data-accordion-btn>
-              <p class="menu-title">Currency</p>
-              <ion-icon name="caret-back-outline" class="caret-back"></ion-icon>
-            </button>
-
-            <ul class="submenu-category-list" data-accordion>
-              <li class="submenu-category">
-                <a href="#" class="submenu-title">USD &dollar;</a>
-              </li>
-
-              <li class="submenu-category">
-                <a href="#" class="submenu-title">EUR &euro;</a>
-              </li>
-            </ul>
-          </li>
-
-        </ul>
-
-        <ul class="menu-social-container">
-
+      {% if (session['type'] == 'Vendor' or session['type'] == 'Admin') and current_user.is_authenticated %}
+      <li class="nav-heading">Vendors</li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+          <i class="bx bxs-message-alt-add"></i><span>Add</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="#" class="social-link">
-              <ion-icon name="logo-facebook"></ion-icon>
-            </a>
-          </li>
-
-          <li>
-            <a href="#" class="social-link">
-              <ion-icon name="logo-twitter"></ion-icon>
-            </a>
-          </li>
-
-          <li>
-            <a href="#" class="social-link">
-              <ion-icon name="logo-instagram"></ion-icon>
-            </a>
-          </li>
-
-          <li>
-            <a href="#" class="social-link">
-              <ion-icon name="logo-linkedin"></ion-icon>
+            <a href="{{ url_for('product.addproduct') }}">
+              <i class="bi bi-circle"></i><span>Product</span>
             </a>
           </li>
 
         </ul>
+      </li>
 
-      </div>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('product.vendor_products', id=current_user.id) }}">
+          <i class="bi bi-grid"></i>
+          <span>My Products</span>
+        </a>
+      </li>
 
-    </nav>
+      {% endif %}
+      <br>
 
-  </header>
+      {% if (session['type'] == 'Admin' and current_user.is_authenticated) %}
+      <li class="nav-heading">Admin</li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+          <i class="bx bxs-message-alt-add"></i><span>Add</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{{ url_for('blog.addpost') }}">
+              <i class="bi bi-circle"></i><span>Post</span>
+            </a>
+          </li>
+          <li>
+            <a href="charts-apexcharts.html" data-bs-toggle="modal" data-bs-target="#basicModal">
+              <i class="bi bi-circle"></i><span>Brand</span>
+            </a>
+          </li>
+          <li>
+            <a href="charts-echarts.html" data-bs-toggle="modal" data-bs-target="#categoryModal">
+              <i class="bi bi-circle"></i><span>Category</span>
+            </a>
+          </li>
 
+        </ul>
+      </li>
 
-  {% include 'message.html' %}
-  <!--
-    - MAIN
-  -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="index.html">
+          <i class="bx bx-wallet"></i>
+          <span>Brands</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="index.html">
+          <i class="bx bxs-category-alt
+          "></i>
+          <span>Category</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('product.allproducts')}}">
+          <i class="bi bi-grid"></i>
+          <span>Products</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('blog.allposts')}}">
+          <i class="bi bi-grid"></i>
+          <span>Posts</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="index.html">
+          <i class="bx bxl-shopify"></i>
+          <span>Vendors</span>
+        </a>
+      </li>
+
+    </ul>
+    {% endif %}
+  </aside>
+  <!-- End Sidebar-->
+
   {% block content %}
 
   {% endblock content %}
-  <!--
-    - FOOTER
-  -->
 
-  <footer>
-
-    <div class="footer-category">
-
-      <div class="container">
-
-        <h2 class="footer-category-title">Brand directory</h2>
-
-        <div class="footer-category-box">
-
-          <h3 class="category-box-title">Fashion :</h3>
-
-          <a href="#" class="footer-category-link">T-shirt</a>
-          <a href="#" class="footer-category-link">Shirts</a>
-          <a href="#" class="footer-category-link">shorts & jeans</a>
-          <a href="#" class="footer-category-link">jacket</a>
-          <a href="#" class="footer-category-link">dress & frock</a>
-          <a href="#" class="footer-category-link">innerwear</a>
-          <a href="#" class="footer-category-link">hosiery</a>
-
+<!-- MODALS -->
+  <!-- Button trigger modal -->
+  <!-- Modal -->
+  <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel1">Add new brand to the database</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
         </div>
-
-        <div class="footer-category-box">
-          <h3 class="category-box-title">footwear :</h3>
-        
-          <a href="#" class="footer-category-link">sport</a>
-          <a href="#" class="footer-category-link">formal</a>
-          <a href="#" class="footer-category-link">Boots</a>
-          <a href="#" class="footer-category-link">casual</a>
-          <a href="#" class="footer-category-link">cowboy shoes</a>
-          <a href="#" class="footer-category-link">safety shoes</a>
-          <a href="#" class="footer-category-link">Party wear shoes</a>
-          <a href="#" class="footer-category-link">Branded</a>
-          <a href="#" class="footer-category-link">Firstcopy</a>
-          <a href="#" class="footer-category-link">Long shoes</a>
+        <div class="modal-body">
+          <div class="row">
+            <form action="{{ url_for('product.addproduct') }}" method="POST">
+            <div class="col mb-3">
+             
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-0">
+              
+          </div>
+          </div>
         </div>
-
-        <div class="footer-category-box">
-          <h3 class="category-box-title">jewellery :</h3>
-        
-          <a href="#" class="footer-category-link">Necklace</a>
-          <a href="#" class="footer-category-link">Earrings</a>
-          <a href="#" class="footer-category-link">Couple rings</a>
-          <a href="#" class="footer-category-link">Pendants</a>
-          <a href="#" class="footer-category-link">Crystal</a>
-          <a href="#" class="footer-category-link">Bangles</a>
-          <a href="#" class="footer-category-link">bracelets</a>
-          <a href="#" class="footer-category-link">nosepin</a>
-          <a href="#" class="footer-category-link">chain</a>
-          <a href="#" class="footer-category-link">Earrings</a>
-          <a href="#" class="footer-category-link">Couple rings</a>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+          
         </div>
-
-        <div class="footer-category-box">
-          <h3 class="category-box-title">cosmetics :</h3>
-        
-          <a href="#" class="footer-category-link">Shampoo</a>
-          <a href="#" class="footer-category-link">Bodywash</a>
-          <a href="#" class="footer-category-link">Facewash</a>
-          <a href="#" class="footer-category-link">makeup kit</a>
-          <a href="#" class="footer-category-link">liner</a>
-          <a href="#" class="footer-category-link">lipstick</a>
-          <a href="#" class="footer-category-link">prefume</a>
-          <a href="#" class="footer-category-link">Body soap</a>
-          <a href="#" class="footer-category-link">scrub</a>
-          <a href="#" class="footer-category-link">hair gel</a>
-          <a href="#" class="footer-category-link">hair colors</a>
-          <a href="#" class="footer-category-link">hair dye</a>
-          <a href="#" class="footer-category-link">sunscreen</a>
-          <a href="#" class="footer-category-link">skin loson</a>
-          <a href="#" class="footer-category-link">liner</a>
-          <a href="#" class="footer-category-link">lipstick</a>
-        </div>
-
       </div>
+    </form>
+    </div>
+  </div>
 
+
+
+  <div class="modal fade" id="categoryModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel1">Add new Category to the database</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col mb-3">
+                <label for="nameBasic" class="form-label">Category Name</label>
+                <input type="text" id="nameBasic" class="form-control" placeholder="Enter Name" />
+              </div>
+            </div>
+            <div class="row g-2">
+              <div class="col mb-0">
+                <label for="emailBasic" class="form-label">Image</label>
+                <input class="form-control" type="file" id="formFileMultiple"/>
+            </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Add</button>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="footer-nav">
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-      <div class="container">
+  <!-- Vendor JS Files -->
+  <script src="{{ url_for('static', filename='assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/chart.js/chart.umd.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/echarts/echarts.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/quill/quill.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/tinymce/tinymce.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/php-email-form/validate.js') }}"></script>
 
-        <ul class="footer-nav-list">
-
-          <li class="footer-nav-item">
-            <h2 class="nav-title">Popular Categories</h2>
-          </li>
-          {% for category in categories %}
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">{{ category.name }}</a>
-          </li>
-          {% endfor %}
-
-        </ul>
-
-        <ul class="footer-nav-list">
-        
-          <li class="footer-nav-item">
-            <h2 class="nav-title">Products</h2>
-          </li>
-        
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Prices drop</a>
-          </li>
-        
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">New products</a>
-          </li>
-        
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Best sales</a>
-          </li>
-        
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Contact us</a>
-          </li>
-        
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Sitemap</a>
-          </li>
-        
-        </ul>
-
-        <ul class="footer-nav-list">
-        
-          <li class="footer-nav-item">
-            <h2 class="nav-title">Our Company</h2>
-          </li>
-        
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Delivery</a>
-          </li>
-        
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Legal Notice</a>
-          </li>
-        
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Terms and conditions</a>
-          </li>
-        
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">About us</a>
-          </li>
-        
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Secure payment</a>
-          </li>
-        
-        </ul>
-
-        <ul class="footer-nav-list">
-        
-          <li class="footer-nav-item">
-            <h2 class="nav-title">Services</h2>
-          </li>
-        
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Prices drop</a>
-          </li>
-        
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">New products</a>
-          </li>
-        
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Best sales</a>
-          </li>
-        
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Contact us</a>
-          </li>
-        
-          <li class="footer-nav-item">
-            <a href="#" class="footer-nav-link">Sitemap</a>
-          </li>
-        
-        </ul>
-
-        <ul class="footer-nav-list">
-
-          <li class="footer-nav-item">
-            <h2 class="nav-title">Contact</h2>
-          </li>
-
-          <li class="footer-nav-item flex">
-            <div class="icon-box">
-              <ion-icon name="location-outline"></ion-icon>
-            </div>
-
-            <address class="content">
-              419 State 414 Rte
-              Beaver Dams, New York(NY), 14812, USA
-            </address>
-          </li>
-
-          <li class="footer-nav-item flex">
-            <div class="icon-box">
-              <ion-icon name="call-outline"></ion-icon>
-            </div>
-
-            <a href="tel:+607936-8058" class="footer-nav-link">(607) 936-8058</a>
-          </li>
-
-          <li class="footer-nav-item flex">
-            <div class="icon-box">
-              <ion-icon name="mail-outline"></ion-icon>
-            </div>
-
-            <a href="mailto:example@gmail.com" class="footer-nav-link">example@gmail.com</a>
-          </li>
-
-        </ul>
-
-        <ul class="footer-nav-list">
-
-          <li class="footer-nav-item">
-            <h2 class="nav-title">Follow Us</h2>
-          </li>
-
-          <li>
-            <ul class="social-link">
-
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">
-                  <ion-icon name="logo-facebook"></ion-icon>
-                </a>
-              </li>
-
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">
-                  <ion-icon name="logo-twitter"></ion-icon>
-                </a>
-              </li>
-
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">
-                  <ion-icon name="logo-linkedin"></ion-icon>
-                </a>
-              </li>
-
-              <li class="footer-nav-item">
-                <a href="#" class="footer-nav-link">
-                  <ion-icon name="logo-instagram"></ion-icon>
-                </a>
-              </li>
-
-            </ul>
-          </li>
-
-        </ul>
-
-      </div>
-
-    </div>
-
-    <div class="footer-bottom">
-
-      <div class="container">
-
-        <img src="./assets/images/payment.png" alt="payment method" class="payment-img">
-
-        <p class="copyright">
-          Copyright &copy; <a href="#">ShopWE</a> all rights reserved.
-        </p>
-
-      </div>
-
-    </div>
-
-  </footer>
-
-
-
-
-
-
-  <!--
-    - custom js link
-  -->
-  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-
-  <!--
-    - ionicon link
-  -->
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
-    <!-- Vendor CSS Files -->
-    <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='assets/vendor/quill/quill.snow.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
-  
-    <!-- Template Main CSS File -->
-    <link href="{{ url_for('static', filename='assets/css/style.css') }}" rel="stylesheet">
+  <!-- Template Main JS File -->
+  <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
 
 </body>
 

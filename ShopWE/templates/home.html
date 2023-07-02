@@ -1,132 +1,48 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
-   <!--
-      - PRODUCT
-    -->
 
-    <div class="product-container">
+<main id="main" class="main">
 
-        <div class="container">
-  
-  
-          <!--
-            - SIDEBAR
-          -->
-  
-  
-          <div class="product-box">
-  
-            <!--
-              - PRODUCT GRID
-            -->
-  
-            <div class="product-main">
-  
-              <h2 class="title">New Products</h2>
-  
-              <div class="product-grid">
-                {% for product in products %}
-                <div class="showcase">
-                
-                  <div class="showcase-banner">
-                    <img src="{{ url_for('static', filename='images/products/' + product.image_1 )}}" alt="Black Floral Wrap Midi Skirt" class="product-img default"
-                      width="300">
-                    <img src="{{ url_for('static', filename='images/products/' + product.image_3 )}}" alt="Black Floral Wrap Midi Skirt" class="product-img hover"
-                      width="300">
-                
-                    <p class="showcase-badge angle pink">{{ product.brand.name }}</p>
-                
-                    <div class="showcase-actions">
-                      <button class="btn-action">
-                        <ion-icon name="heart-outline"></ion-icon>
-                      </button>
-                
-                      <button class="btn-action">
-                        <ion-icon name="eye-outline"></ion-icon>
-                      </button>
-                
-                      <button class="btn-action">
-                        <ion-icon name="repeat-outline"></ion-icon>
-                      </button>
-                
-                      <button class="btn-action">
-                        <ion-icon name="bag-add-outline"></ion-icon>
-                      </button>
+<section class="section dashboard">
+    <div class="row">
+         
+      <section id="product-1" class="section-p1">
+        {% include 'message.html' %}
+        <div class="pro-container">
+            
+            {% for product in products %}
+                <div class="pro">
+                    <img src="{{ url_for('static', filename='images/products/' + product.image_1) }}" alt="">
+                    <div class="des">
+                        <a href="" style="color: blue; font-size: 16px; font-weight: 700;">{{ product.brand.name }}</a>
+                        {% if product.discount > 0 %}
+                            <span style="margin-left: 90px; font-size: 14px; color: red">({{ product.discount }}%)</span>
+                        {% endif %}
+                        <h4 style="color: black"><a style="color: black" href="{{ url_for('product.singleproduct', id=product.id) }}">{{ product.name | truncate(45) }}</a></h4>
+                        <div class="star">
+                            <i class="bi bi-star-fill" style="color: red"></i>
+                            <i class="bi bi-star-fill" style="color: red"></i>
+                            <i class="bi bi-star-fill" style="color: red"></i>
+                            <i class="bi bi-star-fill" style="color: red"></i>
+                            <i class="bi bi-star-fill" style="color: red"></i>
+                        </div>                        
                     </div>
-                  </div>
-                
-                  <div class="showcase-content">
-                    <a href="#" class="showcase-category">{{ product.category.name }}</a>
-                
-                    <h3>
-                      <a href="{{ url_for('product.singleproduct', id=product.id)}}" class="showcase-title">{{ product.name | truncate(30)  }}</a>
-                    </h3>
-                
-                    <div class="showcase-rating">
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                      <ion-icon name="star"></ion-icon>
-                    </div>
-                
-                    <div class="price-box">
-                      <p class="price">₦{{ product.price }}</p>
-                      <del>₦{{ product.price }}</del>
-                    </div>
-                
-                  </div>
-                
+                    {% if product.discount > 0 %}
+                        
+                    {% endif %}
+                    <form action="{{ url_for('cart.add_to_cart', id=product.id) }}" method="POST">
+                        <span style="font-weight: 600; color: blue; margin-right: 20px;">${{ product.price }}</span>
+                        <button style="margin-left: 90px;" type="submit" class="btn btn-primary"><i class="bi bi-cart"></i></button>
+                    </form>
                 </div>
-                {% endfor %}
-  
-              </div>
-  
-            </div>
-  
-          </div>
-  
+            {% endfor %}
         </div>
-  
-      </div>
-
-
-
-    <div class="blog">
-
-      <div class="container">
-
-        <div class="blog-container has-scrollbar">
-
-          {% for post in posts %}
-          <div class="blog-card">
-
-            <a href="#">
-              <img src="{{ url_for('static', filename='images/blogposts/' + post.image)}}" alt="Clothes Retail KPIs 2021 Guide for Clothes Executives" width="300" class="blog-banner">
-            </a>
-
-            <div class="blog-content">
-
-              <a href="#" class="blog-category">News</a>
-
-              <a href="#">
-                <h3 class="blog-title">{{ post.title }}</h3>
-              </a>
-
-              <p class="blog-meta">
-                By <cite>{{ post.poster.username }}</cite> / <time datetime="2022-04-06">{{ post.date_posted }}</time>
-              </p>
-
-            </div>
-
-          </div>
-          {% endfor %}
-        </div>
-
-      </div>
+    </section>
 
     </div>
+</section>
 
-
+</main>
 {% endblock content %}

@@ -2,152 +2,106 @@
 
 {% block content %}
 
+<main id="main" class="main">
 
-      <!--
-    - MAIN
-  -->
+  <div class="pagetitle">
+    <h1>Product</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item">Product</li>
+        <li class="breadcrumb-item active">{{ product.category.name }}</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
 
-  <div class="product-featured" style="width: 70%; margin: auto;">
+  <section class="sectioni profile">
+    <div class="row">
+      <div class="col-xl-4">
 
-    <div class="showcase-wrapper">
+        <div class="card">
+          <img src="{{ url_for('static', filename='images/products/' + product.image_1 )}}" alt="Profile" style="width: 100%; height: auto">
 
-      <div class="showcase-container">
-
-        <div class="showcase">
-          <div class="showcase-banner">
-            <img src="{{ url_for('static', filename='images/products/' + product.image_1 )}}" alt="shampoo, conditioner & facewash packs" class="showcase-img">
-          </div>
-
-          <div class="showcase-content">
-            
-            <a href="#">
-                <h3 class="showcase-title">{{ product.name }}</h3>
-            </a>
-
-            <div class="showcase-rating">
-              <ion-icon name="star"></ion-icon>
-              <ion-icon name="star"></ion-icon>
-              <ion-icon name="star"></ion-icon>
-              <ion-icon name="star-outline"></ion-icon>
-              <ion-icon name="star-outline"></ion-icon>
+          <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+            <div class="social-links mt-2">
+              <img src="{{ url_for('static', filename='images/products/' + product.image_1 )}}" alt="Profile" style="width: 33%; height: auto">
+              <img src="{{ url_for('static', filename='images/products/' + product.image_2 )}}" alt="Profile" style="width: 33%; height: auto">
+              <img src="{{ url_for('static', filename='images/products/' + product.image_3 )}}" alt="Profile" style="width: 33%; height: auto">
             </div>
-
-            <p class="showcase-desc">
-              Lorem ipsum dolor sit amet consectetur Lorem ipsum
-              dolor dolor sit amet consectetur Lorem ipsum dolor
-            </p>
-
-            <div class="price-box">
-              <p class="price">{{ product.price }}</p>
-
-              <del>{{ product.price }}</del>
-            </div>
-
-           <form method="POST" action="{{ url_for('cart.add_to_cart', id=product.id) }}">
-            <input type="hidden", value="{{ product.id }}" name="id">
-            <button type='submit' class="add-cart-btn">add to cart</button>
-          </form>
           </div>
         </div>
 
       </div>
 
-    </div>
-    <br><br>
-    <h3>Product Details</h3>
-    <p style="text-align: justify;">
-        {{ product.description | safe }}
-    <br>
+      <div class="col-xl-8">
 
-  </div>
+        <div class="card">
+          <div class="card-body pt-3">
+            <div class="tab-content pt-2">
 
-  <div class="product-container">
+              <div class="tab-pane fade show active profile-overview" id="profile-overview">
 
-    <div class="container">
+                <h1 class="card-title">PRODUCT DESCRIPTION</h1>
 
+                {{ product.description | safe }}
 
-      <!--
-        - SIDEBAR
-      -->
-
-
-      <div class="product-box">
-
-        <!--
-          - PRODUCT GRID
-        -->
-
-        <div class="product-main">
-
-          <h2 class="title">From Same brand</h2>
-
-          <div class="product-grid">
-            {% for product in related_products %}
-              {% if not product.id == id %}
-            <div class="showcase">
-            
-              <div class="showcase-banner">
-                <img src="{{ url_for('static', filename='images/products/' + product.image_1 )}}" alt="Black Floral Wrap Midi Skirt" class="product-img default"
-                  width="300">
-                <img src="{{ url_for('static', filename='images/products/' + product.image_3 )}}" alt="Black Floral Wrap Midi Skirt" class="product-img hover"
-                  width="300">
-            
-                <p class="showcase-badge angle pink">{{ product.brand.name }}</p>
-            
-                <div class="showcase-actions">
-                  <button class="btn-action">
-                    <ion-icon name="heart-outline"></ion-icon>
-                  </button>
-            
-                  <button class="btn-action">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </button>
-            
-                  <button class="btn-action">
-                    <ion-icon name="repeat-outline"></ion-icon>
-                  </button>
-            
-                  <button class="btn-action">
-                    <ion-icon name="bag-add-outline"></ion-icon>
-                  </button>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                  <div class="col-lg-9 col-md-8">{{ current_user.first_name }} {{ current_user.last_name }}</div>
                 </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Username</div>
+                  <div class="col-lg-9 col-md-8">{{ current_user.username }}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Email</div>
+                  <div class="col-lg-9 col-md-8">{{ current_user.email }}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Role</div>
+                  <div class="col-lg-9 col-md-8">{{ role }}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Country</div>
+                  <div class="col-lg-9 col-md-8">{{ current_user.country }}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">State</div>
+                  <div class="col-lg-9 col-md-8">{{ current_user.state }}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">City</div>
+                  <div class="col-lg-9 col-md-8">{{ current_user.city }}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Address</div>
+                  <div class="col-lg-9 col-md-8">{{ current_user.address }}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Phone</div>
+                  <div class="col-lg-9 col-md-8">{{ current_user.phone }}</div>
+                </div>
+
               </div>
-            
-              <div class="showcase-content">
-                <a href="#" class="showcase-category">{{ product.category.name }}</a>
-            
-                <h3>
-                  <a href="{{ url_for('product.singleproduct', id=product.id)}}" class="showcase-title">{{ product.name | truncate(30)  }}</a>
-                </h3>
-            
-                <div class="showcase-rating">
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                  <ion-icon name="star"></ion-icon>
-                </div>
-            
-                <div class="price-box">
-                  <p class="price">₦{{ product.price }}</p>
-                  <del>₦{{ product.price }}</del>
-                </div>
-            
-              </div>
-            
-            </div>
-            {% endif %}
-            {% endfor %}
+
+            </div><!-- End Bordered Tabs -->
 
           </div>
-
         </div>
 
       </div>
-
     </div>
+  </section>
 
-  </div>
+</main>
 
 
 {% endblock content %}

@@ -1,0 +1,98 @@
+{% extends 'dashboard/base.html' %}
+{% block title %} Add Blog Post {% endblock title %}
+
+{% block content %}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>BlogPost Page</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Dashboard</li>
+          <li class="breadcrumb-item active">AddBlogPost</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Add New Post</h5>
+
+              <!-- General Form Elements -->
+              <form method="POST" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+
+                {% include 'message.html' %}
+
+                <div class="row mb-3">
+                    {{ form.title.label(class='col-sm-2 col-form-label') }}
+                  <div class="col-sm-10">
+                    {% if form.title.errors %}
+                        {{ form.title(class='form-control') }}
+                        {% for error in form.title.errors %}
+                            <span style="color: red">{{ error }}</span>
+                        {% endfor %}
+                    {% else %}
+                    {{ form.title(class='form-control') }}
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                    {{ form.content.label(class='col-sm-2 col-form-label') }}
+                  <div class="col-sm-10">
+                    {% if form.content.errors %}
+                        {{ form.content(class='form-control') }}
+                        {% for error in form.content.errors %}
+                            <span style="color: red">{{ error }}</span>
+                        {% endfor %}
+                    {% else %}
+                    {{ form.content(class='form-control') }}
+                    {% endif %}
+                  </div>
+                </div> 
+
+                <div class="row mb-3">
+                    {{ form.image.label(class='col-sm-2 col-form-label') }}
+                  <div class="col-sm-10">
+                    {% if form.image.errors %}
+                        {{ form.image(class='form-control') }}
+                        {% for error in form.image.errors %}
+                            <span style="color: red">{{ error }}</span>
+                        {% endfor %}
+                    {% else %}
+                    {{ form.image(class='form-control') }}
+                    {% endif %}
+                  </div>
+                </div> 
+
+
+                <div class="row mb-3">
+                  <div class="col-sm-10">
+                    {{ form.submit(class="btn btn-primary") }}
+                  </div>
+                </div>
+
+              </form>
+
+              {{ ckeditor.load() }}
+              {{ ckeditor.config(name='content') }}
+
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+{% endblock content %}

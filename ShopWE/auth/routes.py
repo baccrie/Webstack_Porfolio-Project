@@ -35,7 +35,7 @@ def login():
             print(new_activity.category)
             db.session.commit()
             login_user(user)
-            flash('Successfully Login', 'primary')
+            flash('Successfully Login', 'success')
             print(current_user.email)
             print(session['type'])
             return redirect(url_for('home'))
