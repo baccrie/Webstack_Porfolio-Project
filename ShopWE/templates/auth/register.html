@@ -50,7 +50,7 @@
 
               <div class="d-flex justify-content-center py-4">
                 <a href="index.html" class="logo d-flex align-items-center w-auto">
-                  <img src="{{ url_for('static', filename='assets/img/logo.png') }}" alt="">
+                 
                   <span class="d-none d-lg-block">ShopWE</span>
                 </a>
               </div><!-- End Logo -->
@@ -230,7 +230,7 @@
                         {{ form.submit(class='btn btn-primary w-100') }}
                       </div>
                       <div class="col-12">
-                        <p class="small mb-0">Already have an account? <a href="pages-login.html">Log in</a></p>
+                        <p class="small mb-0">Already have an account? <a href="{{ url_for('auth.login') }}">Log in</a></p>
                       </div>
                     </form>
 
@@ -325,6 +325,18 @@
                     </div>
 
                     <div class="col-12">
+                      {{ form.address.label(class='form-label') }}
+                        {% if form.address.errors %}
+                        {{ form.address(class='form-control') }}
+                          {% for error in form.address.errors %}
+                          <span style="color: red">{{ error }}</span>
+                          {% endfor %}
+                        {% else %}
+                        {{ form.address(class='form-control') }}
+                        {% endif %}
+                    </div>
+
+                    <div class="col-12">
                       {{ form.about.label(class='form-label') }}
                         {% if form.about.errors %}
                         {{ form.about(class='form-control') }}
@@ -361,7 +373,7 @@
                       {{ form.submit(class='btn btn-primary w-100') }}
                     </div>
                     <div class="col-12">
-                      <p class="small mb-0">Already have an account? <a href="pages-login.html">Log in</a></p>
+                      <p class="small mb-0">Already have an account? <a href="{{ url_for('auth.login') }}">Log in</a></p>
                     </div>
                   </form>
                   {% endif %}

@@ -73,7 +73,7 @@
 
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
             <a href="{{ '/carts' }}"><i class='bi bi-cart'></i></a>
-            <span class="badge bg-primary badge-number">{{ session['cart'] | length }}</span>
+            <span class="badge bg-danger badge-number">{{ session['cart'] | length }}</span>
           </a><!-- End Messages Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
@@ -150,7 +150,7 @@
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
               <li class="dropdown-header">
                 <h6>{{ current_user.first_name }}</h6>
-                <span>{{ role }}</span>
+                <span>({{ role }})</span>
               </li>
               <li>
                 <hr class="dropdown-divider">
@@ -266,6 +266,13 @@
         <a class="nav-link" href="{{ url_for('home') }}">
           <i class="bi bi-house-exclamation-fill"></i>
           <span>Home</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('blog.posts') }}">
+          <i class="bx bxs-dashboard"></i>
+          <span>Blog</span>
         </a>
       </li>
 

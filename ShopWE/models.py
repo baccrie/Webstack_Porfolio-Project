@@ -68,7 +68,7 @@ class Vendor(db.Model, UserMixin):
     password = db.Column(db.String(50))
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
-    image_1 = db.Column(db.String(150), nullable=False, default='vendor.jpg')
+    profile_image = db.Column(db.String(150), default='vendor.jpg')
     image_2 = db.Column(db.String(150), nullable=False, default='vendor.jpg')
     image_3 = db.Column(db.String(150), nullable=False, default='image.jpg')
 

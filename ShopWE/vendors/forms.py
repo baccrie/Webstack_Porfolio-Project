@@ -16,10 +16,10 @@ class VendorRegister(FlaskForm):
     address = StringField('Address', validators=[DataRequired()])
     number = TelField('Number', validators=[DataRequired(), Length(min=2, max=20)])
     password = PasswordField('Password', validators=[DataRequired()])
-    address = TextAreaField('Address')
+    address = TextAreaField('Address', validators=[DataRequired()])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     about = TextAreaField('About', validators=[DataRequired()])
-    image = FileField('Image', validators=[DataRequired(), FileAllowed(['jpg', 'png', 'jpeg'])])
+    image = FileField('Image', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     submit = SubmitField('Sign Up')
    
         
@@ -50,7 +50,7 @@ class UpdateVendorInfo(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     address = TextAreaField('Address')
     about = TextAreaField('About', validators=[DataRequired()])
-    image = FileField('Image', validators=[DataRequired(), FileAllowed(['jpg', 'png', 'jpeg'])])
+    image = FileField('Image', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     submit = SubmitField('Save Changes')
    
         

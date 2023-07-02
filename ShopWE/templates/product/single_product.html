@@ -58,11 +58,28 @@
                     </ul>
                     <div class="tab-content pt-2" id="myTabjustifiedContent">
                       <div class="tab-pane fade show active" id="home-justified" role="tabpanel" aria-labelledby="home-tab">
-                        {{ product.name }}
-                        <br>
-                        {{ product.owner.name }}
-                        <br>
-                        <a href="" class="btn btn-primary">Add to Cart</a>
+                       
+                          <div class="card-body">
+                            <h5 class="card-title">Product Details</h5>
+                            <h4 class="card-subtitle mb-2 text-muted"><strong>Name - {{ product.name }}</strong></h4>
+                            <h4 class="card-subtitle mb-2 text-muted"><strong>Brand - {{ product.brand.name }}</strong></h4>
+                            <h5 class="card-subtitle mb-2 text-muted"><strong>Category - {{ product.category.name }}</strong></h5>
+                            <h5 class="card-subtitle mb-2 text-muted"><strong>Stock - {{ product.price }}</strong></h5>
+                            <h5 class="card-subtitle mb-2 text-muted"><strong>Discount - {{ product.discount }}%</strong></h5>
+                            <h5 class="card-subtitle mb-2 text-muted"><strong>Stock - {{ product.stock }} nos</strong></h5>
+                            <p class="card-text">{{ product.description | safe | truncate(500) }}</p>
+                            <p class="card-text"><a href="#" class="btn btn-primary">Add to cart</a></p>
+                            <h5 class="card-title">Vendor Details</h5>
+                            <h4 class="card-subtitle mb-2 text-muted"><strong>Name - {{ product.owner.name }}</strong></h4>
+                            <h4 class="card-subtitle mb-2 text-muted"><strong>Country - {{ product.owner.country }}</strong></h4>
+                            <h5 class="card-subtitle mb-2 text-muted"><strong>City - {{ product.owner.city }}</strong></h5>
+                            <h5 class="card-subtitle mb-2 text-muted"><strong>State - {{ product.owner.state }}</strong></h5>
+                            <h5 class="card-subtitle mb-2 text-muted"><strong>Address - {{ product.owner.address }}</strong></h5>
+                            <h5 class="card-subtitle mb-2 text-muted"><strong>About - {{ product.owner.about }}</strong></h5>
+                            <a href="#" class="card-link">Card link</a>
+                            <a href="#" class="card-link">Another link</a>
+                          </div>
+                        
                       </div>
                       <div class="tab-pane fade" id="profile-justified" role="tabpanel" aria-labelledby="profile-tab">
                         {{ product.description | safe }}

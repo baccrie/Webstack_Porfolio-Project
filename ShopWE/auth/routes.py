@@ -77,13 +77,16 @@ def vendor_register():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         vendor = Vendor(name=form.name.data, email=form.email.data, country=form.country.data,
                         state=form.state.data, city=form.city.data,
-                            phone=form.number.data, password=hashed_password)
-        
+                            phone=form.number.data, password=hashed_password, about=form.about.data)
+        if form.image.data:
+            image = save_image(form.image.data, 'users')
+            vendor.profile_image = image
+
         db.session.add(vendor)
         new_activity = Activity(content='Your account was registered', vendor_id=vendor.id, category='success')
         db.session.add(new_activity)
 
-        #db.session.commit()
+        db.session.commit()
         flash(f'Successfully registered pls login!', 'primary')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form, role='vendor')
