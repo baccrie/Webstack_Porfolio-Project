@@ -28,8 +28,15 @@ def home():
 @dash.route('/dash/<int:id>/profile', methods=['POST', 'GET'])
 @login_required
 def profile(id):
-    user_profile = Customer.query.get_or_404(id)
-    form = UpdateCustomerInfo()
+    if isinstance(current_user, Customer):
+        user_profile = Customer.query.get_or_404(id)
+        form = UpdateCustomerInfo()
+    elif isinstance(current_user, Admin):
+        user_profile = Admin.query.get_or_404(id)
+        form = UpdateCustomerInfo()
+    else:
+        user_profile = Vendor.query.get_or_404(id)
+        form = UpdateVendorInfo()
     form1 = UpdateCustomerPassword()
 
     print(form.errors)
@@ -37,9 +44,12 @@ def profile(id):
         print(form.errors)
     if form.validate_on_submit():
         user_profile.email = form.email.data
-        user_profile.username = form.username.data
-        user_profile.first_name = form.first_name.data
-        user_profile.last_name = form.last_name.data
+        if not isinstance(current_user, Vendor):
+            user_profile.username = form.username.data
+            user_profile.first_name = form.first_name.data
+            user_profile.last_name = form.last_name.data
+        else:
+            user_profile.name = form.email.data
         user_profile.country = form.country.data
         user_profile.state = form.state.data
         user_profile.city = form.city.data
@@ -53,9 +63,12 @@ def profile(id):
     
     
     form.email.data = current_user.email
-    form.username.data = current_user.username
-    form.first_name.data = current_user.first_name
-    form.last_name.data = current_user.last_name
+    if not isinstance(current_user, Vendor):
+        form.username.data = current_user.username
+        form.first_name.data = current_user.first_name
+        form.last_name.data = current_user.last_name
+    else:
+        form.name.data = current_user.name
     form.country.data = current_user.country
     form.state.data = current_user.state
     form.address.data = current_user.address

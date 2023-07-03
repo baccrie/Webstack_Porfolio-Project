@@ -3,6 +3,7 @@ from ShopWE import app
 from ShopWE.models import Category, Brand, Product
 from ShopWE.models import Admin, Customer, Comment, Vendor, Post
 from ShopWE.generic import brands, categories, posts
+from flask_login import login_required
 
 cart = Blueprint('cart', __name__)
 
@@ -55,9 +56,10 @@ def add_to_cart(id):
 
 
 @cart.route('/carts')
+@login_required
 def cart_items():
     if 'cart' not in session:
-        flash(f'Carts is empty go to the product page to add new carts', 'info')
+        flash(f'Cart is empty , pls add products to cart', 'info')
         return redirect(url_for('home'))
     
     return render_template('cart/cart.html')
@@ -65,7 +67,7 @@ def cart_items():
 
 @cart.route('/clear')
 def clear():
-    session.pop('cart')
-
+    if 'cart' in session:
+        session.pop('cart')
     # print(session['cart'])
     return "deleted"

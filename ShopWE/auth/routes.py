@@ -38,7 +38,11 @@ def login():
             flash('Successfully Login', 'success')
             print(current_user.email)
             print(session['type'])
-            return redirect(url_for('home'))
+            next_page = request.args.get('next')
+            if next_page:
+                return redirect(next_page)
+            else:
+                return redirect(url_for('home'))
         elif user and not bcrypt.check_password_hash(user.password, form.password.data):
             flash(f'Invalid password', 'danger')
         elif not user:
@@ -77,7 +81,7 @@ def vendor_register():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         vendor = Vendor(name=form.name.data, email=form.email.data, country=form.country.data,
                         state=form.state.data, city=form.city.data,
-                            phone=form.number.data, password=hashed_password, about=form.about.data)
+                            phone=form.number.data, password=hashed_password, about=form.about.data, address=form.address.data)
         if form.image.data:
             image = save_image(form.image.data, 'users')
             vendor.profile_image = image
@@ -109,8 +113,7 @@ def logout():
 
     db.session.add(new_activity)
     db.session.commit()
-    if 'cart' in session:
-        session.pop('cart')
+   
     logout_user()
     flash('Logout successful', 'success')
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('home'))

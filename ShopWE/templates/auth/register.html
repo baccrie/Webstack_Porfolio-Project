@@ -235,7 +235,7 @@
                     </form>
 
                   {% else %}
-                  <form method='POST' class="row g-3">
+                  <form method='POST' enctype="multipart/form-data" class="row g-3">
                     {{ form.hidden_tag() }}
 
                     {% include 'message.html' %}
