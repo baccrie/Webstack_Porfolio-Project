@@ -27,7 +27,7 @@ def posts():
 def time_ago(time=False):
     """
     Get a datetime object or a int() Epoch timestamp and return a
-    pretty string like 'an hour ago', 'Yesterday', '3 months ago',
+    pretty string like 'an hour ago', 'Yesterday', '3 months ago.',
     'just now', etc
     Modified from: http://stackoverflow.com/a/1551394/141084
     """
