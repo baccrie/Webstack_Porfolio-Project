@@ -6,7 +6,7 @@ from ShopWE.vendors.forms import VendorRegister, UpdateVendorInfo, UpdateVendorP
 from ShopWE.auth.forms import Login
 from ShopWE.models import Customer, Vendor, Product,  Brand, Category, Activity, Post, Admin
 from ShopWE.dashboard.forms import Addproduct, Addbrand, Addcategory, Updateproduct
-from ShopWE.generic import save_image
+from ShopWE.generic import save_image, time_ago
 from flask import current_app
 import os
 
@@ -15,13 +15,17 @@ dash = Blueprint('dash', __name__)
 @dash.route('/dash/home')
 @login_required
 def home():
+    if isinstance(current_user, Vendor):
+        products = current_user.products[:5]
+    else:
+        products = Product.query.order_by(Product.date.desc()).limit(5).all() 
+
     form1 = Addbrand()
     posts = Post.query.limit(4).all()
-    products = Product.query.order_by(Product.date.desc()).limit(5).all() 
     total = len(current_user.activities)
     last_five = total - 5
     activities = current_user.activities[last_five:total]
-    return render_template('dashboard/home.html', form1=form1, posts=posts, products=products, activities=activities)
+    return render_template('dashboard/home.html', form1=form1, posts=posts, products=products, activities=activities, time_ago=time_ago)
 
 
 

@@ -113,7 +113,8 @@ def logout():
 
     db.session.add(new_activity)
     db.session.commit()
-   
+    if 'cart' in session:
+        session.pop('cart')
     logout_user()
     flash('Logout successful', 'success')
     return redirect(url_for('home'))

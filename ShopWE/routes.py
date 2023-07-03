@@ -3,6 +3,7 @@ from ShopWE import app
 from ShopWE.models import Category, Brand, Product
 from ShopWE.models import Admin, Customer, Comment, Vendor, Post
 from ShopWE.generic import brands, categories, posts
+from flask_login import current_user
 
 @app.route('/')
 @app.route('/home')

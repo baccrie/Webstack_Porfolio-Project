@@ -70,4 +70,5 @@ def clear():
     if 'cart' in session:
         session.pop('cart')
     # print(session['cart'])
-    return "deleted"
+    flash(f'All cart items successfully removed', 'info')
+    return redirect(url_for('home'))

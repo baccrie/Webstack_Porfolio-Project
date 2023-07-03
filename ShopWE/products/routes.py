@@ -10,6 +10,7 @@ from ShopWE.generic import save_image, brands, categories
 from flask import current_app
 import os
 
+
 product = Blueprint('product', __name__)
 
 @product.route('/product/<int:id>', methods=['POST', 'GET'])
@@ -48,7 +49,7 @@ def addproduct():
             newProduct.image_3 = image_name
 
         db.session.add(newProduct)
-        new_activity = Activity(content='You added new product to the database', vendor_id=current_user.id)
+        new_activity = Activity(content='You added new product to the database', category='success', vendor_id=current_user.id)
         db.session.add(new_activity)
         db.session.commit()
         flash(f'Product successfully added', 'success')
@@ -100,7 +101,7 @@ def updateproduct(id):
             except:
                 product_to_edit.image_3 = save_image(form.image_3.data, 'products')
 
-        new_activity = Activity(content=f'You updated the product {product_to_edit.name}', vendor_id=current_user.id)
+        new_activity = Activity(content=f'You updated the product {product_to_edit.name}', category='info', vendor_id=current_user.id)
         db.session.add(new_activity)
         db.session.commit()
 
@@ -136,7 +137,7 @@ def deleteproduct(id):
     except:
         db.session.delete(product_to_delete)
 
-    new_activity = Activity(content=f'You deleted the product {product_to_delete.name}', vendor_id=current_user.id)
+    new_activity = Activity(content=f'You deleted the product {product_to_delete.name}', category='danger', vendor_id=current_user.id)
     db.session.add(new_activity)
     db.session.commit()
 
