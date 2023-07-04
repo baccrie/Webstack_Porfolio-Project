@@ -17,7 +17,7 @@
                 <h4>{{ post.title }}</h4>
                 <p>{{ post.content | truncate(200) | safe }}
                 </p>
-                <a href="#">CONTINUE READING</a>
+                <a href="{{ url_for('blog.single_post', id=post.id) }}">CONTINUE READING</a>
             </div>
         </div>
     {% endfor %}

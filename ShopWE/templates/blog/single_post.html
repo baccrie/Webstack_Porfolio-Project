@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main id="main" class="main">
+
+  <div class="col-lg-12">
+
+    <!-- Card with an image on top -->
+    <div class="card">
+      <img src="{{ url_for('static', filename='images/blogposts/' + post.image )}}" style="width: 70%; height: auto" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{ post.title }}</h5>
+        Posted by {{ post.poster.username }}
+        <p class="card-text">{{ post.content | safe }}</p>
+      </div>
+    </div><!-- End Card with an image on top -->
+
+  </div>
+
+</main>
+
+{% endblock content %}

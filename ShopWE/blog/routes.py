@@ -82,3 +82,8 @@ def allposts():
     
     posts = Post.query.all()
     return render_template('blog/all_posts.html', posts=posts)
+
+@blog.route('/blog/<int:id>/post')
+def single_post(id):
+    post = Post.query.get_or_404(id)
+    return render_template('blog/single_post.html', post=post)
