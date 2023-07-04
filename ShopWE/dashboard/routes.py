@@ -25,7 +25,7 @@ def home():
     total = len(current_user.activities)
     last_five = total - 5
     activities = current_user.activities[last_five:total]
-    return render_template('dashboard/home.html', form1=form1, posts=posts, products=products, activities=activities, time_ago=time_ago)
+    return render_template('dashboard/home.html', form1=form1, posts=posts, products=products, activities=activities, timeago=time_ago)
 
 
 

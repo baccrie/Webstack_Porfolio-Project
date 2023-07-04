@@ -258,13 +258,15 @@
         </a>
       </li>
 
+      {% if current_user.is_authenticated %}
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ url_for('dash.home') }}">
           <i class="bi bi-gear"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
-
+      {% endif %}
+      
       {% if current_user.is_authenticated %}
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{ url_for('dash.profile', id=current_user.id)}}">
