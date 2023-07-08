@@ -161,7 +161,7 @@
                 </div>
 
                 <div class="card-body pb-0">
-                  <h5 class="card-title">My Latest Product</h5>
+                  <h5 class="card-title">{% if role == 'Vendor' %} My {% else %} {% endif %} Latest Product</h5>
 
                   <table class="table table-borderless">
                     <thead>
@@ -255,7 +255,7 @@
               <div class="news">
                 <div class="post-item clearfix">
                   <img src="{{ url_for('static', filename='images/blogposts/' + post.image) }}" alt="">
-                  <h4><a href="#">{{ post.title }}</a></h4>
+                  <h4><a href="{{ url_for('blog.single_post', id=post.id) }}">{{ post.title }}</a></h4>
                   <p>{{ post.content | truncate(100) | safe }}</p>
                 </div>
 

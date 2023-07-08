@@ -44,9 +44,9 @@ def profile(id):
     form1 = UpdateCustomerPassword()
 
     print(form.errors)
+
     if request.method == 'POST':
-        print(form.errors)
-    if form.validate_on_submit():
+        print('yes')
         user_profile.email = form.email.data
         if not isinstance(current_user, Vendor):
             user_profile.username = form.username.data
