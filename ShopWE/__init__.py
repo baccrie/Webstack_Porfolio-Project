@@ -8,7 +8,7 @@ from ShopWE.dashboard.forms import Addbrand, Addcategory
 from flask_ckeditor import CKEditor
 from sqlalchemy import MetaData
 
-
+'''
 convention = {
     "ix": 'ix_%(column_0_label)s',
     "uq": "uq_%(table_name)s_%(column_0_name)s",
@@ -16,26 +16,22 @@ convention = {
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
     "pk": "pk_%(table_name)s"
 }
+'''
 
-metadata = MetaData(naming_convention=convention)
+#metadata = MetaData(naming_convention=convention)
 
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///E-Commerce.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///E-Commerce.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:gbenga@localhost/ShopWE'
 app.config['SECRET_KEY'] = 'hbaq78gqidbiq8'
-db = SQLAlchemy(app, metadata=metadata)
+db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 migrate = Migrate(app, db, render_as_batch=True)
 ckeditor = CKEditor(app)
 login_manager = LoginManager(app)
 
-"""
-@app.context_processor
-def base():
-    form1 = Addbrand
-    return dict(form1=form1)
-"""
 
 
 from ShopWE.auth.routes import auth

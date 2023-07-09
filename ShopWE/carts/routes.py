@@ -14,6 +14,9 @@ def add_cart(obj):
 
 @cart.route('/<int:id>/addcart', methods=['POST'])
 def add_to_cart(id):
+    """
+    Add new item to cart
+    """
     product_to_add = Product.query.get_or_404(id)
     if 'cart' not in session:
         session['cart'] = {}
@@ -66,6 +69,9 @@ def add_to_cart(id):
 @cart.route('/carts')
 @login_required
 def cart_items():
+    """
+    Display all cart items with details
+    """
     if 'cart' not in session:
         flash(f'Cart is empty , pls add products to cart', 'info')
         return redirect(url_for('home'))
@@ -84,6 +90,9 @@ def cart_items():
 @cart.route('/cart/<int:id>/remove')
 @login_required
 def delete_item(id):
+    """
+    Delete a particular item from the cart
+    """
     if 'cart' not in session:
         flash(f'Cart is empty , pls add products to cart', 'info')
         return redirect(url_for('home'))
@@ -95,6 +104,9 @@ def delete_item(id):
 
 @cart.route('/clear')
 def clear():
+    """
+    Removes all items from carts
+    """
     if 'cart' in session:
         session.pop('cart')
     # print(session['cart'])

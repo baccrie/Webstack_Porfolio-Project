@@ -5,6 +5,9 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from flask_ckeditor import CKEditorField
 from wtforms.widgets import TextArea
 
+"""
+This Module handles flaskwtf for rendering and validating forms input for Adding product
+"""
 
 class Addproduct(FlaskForm):
     name = StringField('Product Name', validators=[DataRequired()])

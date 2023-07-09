@@ -13,6 +13,9 @@ blog = Blueprint('blog', __name__)
 @blog.route('/posts')
 @login_required
 def posts():
+    """
+    Showing all Blog Post
+    """
     page = request.args.get('page', 1, type=int)
     posts = Post.query.paginate(page=page, per_page=4)
     return render_template('blog/posts.html', posts=posts, categories=categories(), brands=brands())
@@ -22,6 +25,9 @@ def posts():
 @blog.route('/dash/addpost', methods=['GET', 'POST'])
 @login_required
 def addpost():
+    """
+    Adds new post to the db
+    """
     form = Blogpost()
     if not isinstance(current_user, Admin):
         flash('Oops! you were redirected from an admin only page', 'danger')
@@ -47,6 +53,9 @@ def addpost():
 @blog.route('/dash/<int:id>/updatepost', methods=['POST', 'GET'])
 @login_required
 def updatepost(id):
+    """
+    Updating an existing post
+    """
     form = UpdateBlogPost()
     post_to_update = Post.query.get_or_404(id)
 
@@ -77,6 +86,9 @@ def updatepost(id):
 
 @blog.route('/blog/posts')
 def allposts():
+    """
+    Admin panel show all blog post
+    """
     if not isinstance(current_user, Admin):
         flash('Oops! you were redirected from an admin only page', 'danger')
         return redirect(url_for('dash.home'))
@@ -86,12 +98,18 @@ def allposts():
 
 @blog.route('/blog/<int:id>/post')
 def single_post(id):
+    """
+    Single post page
+    """
     post = Post.query.get_or_404(id)
     return render_template('blog/single_post.html', post=post)
 
 @blog.route('/blog/<int:id>/deletepost')
 @login_required
 def delete_post(id):
+    """
+    Deletes existing post
+    """
     if not isinstance(current_user, Admin):
         flash('Oops! you were redirected from an admin only page', 'danger')
         return redirect(url_for('dash.home'))

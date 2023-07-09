@@ -5,6 +5,9 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from flask_ckeditor import CKEditorField
 from wtforms.widgets import TextArea
 
+"""
+This Module handles flaskwtf for rendering and validating forms input for Blog Post
+"""
 
 class Blogpost(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])

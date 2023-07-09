@@ -6,6 +6,9 @@ from flask_login import current_user
 from ShopWE.models import Vendor, Customer, Admin
 from ShopWE import bcrypt
 
+"""
+This Module handles flaskwtf for rendering and validating forms input for Vendors registraton
+"""
 
 class VendorRegister(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])

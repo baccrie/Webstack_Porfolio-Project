@@ -15,6 +15,9 @@ product = Blueprint('product', __name__)
 
 @product.route('/product/<int:id>', methods=['POST', 'GET'])
 def singleproduct(id):
+    """
+    Display a product details based on selection
+    """
     product = Product.query.get_or_404(id)
     brand = Brand.query.filter_by(id=product.brand_id).first()
     related_product = brand.products
@@ -24,6 +27,9 @@ def singleproduct(id):
 @product.route('/dash/addproduct', methods=['POST', 'GET'])
 @login_required
 def addproduct():
+    """
+    Add new product tom the db
+    """
     form = Addproduct()
     brands = Brand.query.all()
     categories = Category.query.all()
@@ -59,6 +65,9 @@ def addproduct():
 @product.route('/dash/<int:id>/updateproduct', methods=['POST', 'GET'])
 @login_required
 def updateproduct(id):
+    """
+    Edit and Update and existing Product based on selection
+    """
     product_to_edit = Product.query.get_or_404(id)
     form = Updateproduct()
     brands = Brand.query.all()
@@ -119,6 +128,9 @@ def updateproduct(id):
 @product.route('/dash/<int:id>/deleteproduct', methods=['POST', 'GET'])
 @login_required
 def deleteproduct(id):
+    """
+    Delete a product from the db
+    """
     product_to_delete = Product.query.get_or_404(id)
 
     if not isinstance(current_user, Vendor):
@@ -148,6 +160,9 @@ def deleteproduct(id):
 @product.route('/dash/myproducts', methods=['POST', 'GET'])
 @login_required
 def vendor_products():
+    """
+    Display current vendor product
+    """
     if not isinstance(current_user, Vendor):
         flash('You re not authorized to access this page', 'danger')
         return redirect(url_for('dash.home'))
@@ -161,6 +176,9 @@ def vendor_products():
 
 @product.route('/dash/products')
 def allproducts():
+    """
+    Display all product on the platform from an admin endpoint
+    """
     if not isinstance(current_user, Admin):
         flash('Oops! you were redirected from an admin only page', 'danger')
         return redirect(url_for('dash.home'))
@@ -171,6 +189,9 @@ def allproducts():
 @product.route('/dash/addbrand', methods=['POST', 'GET'])
 @login_required
 def add_brand():
+    """
+    Add new brand to the db
+    """
     if not isinstance(current_user, Admin):
         flash('Oops! you were redirected from an admin only page', 'danger')
         return redirect(url_for('dash.home'))
@@ -191,6 +212,9 @@ def add_brand():
 @product.route('/dash/addcategory', methods=['POST', 'GET'])
 @login_required
 def add_category():
+    """
+    Add news category to the database
+    """
     if not isinstance(current_user, Admin):
         flash('Oops! you were redirected from an admin only page', 'danger')
         return redirect(url_for('dash.home'))
@@ -211,6 +235,9 @@ def add_category():
 @product.route('/dash/<int:id>/editbrand', methods=['POST', 'GET'])
 @login_required
 def edit_brand(id):
+    """
+    Edit and Update and existing brand based on selection
+    """
     brand_to_update = Brand.query.filter_by(id=id).first()
     if not isinstance(current_user, Admin):
         flash('Oops! you were redirected from an admin only page', 'danger')
@@ -233,6 +260,9 @@ def edit_brand(id):
 @product.route('/dash/<int:id>/editcategory', methods=['POST', 'GET'])
 @login_required
 def edit_category(id):
+    """
+    Edit and Update and existoing category based on selection
+    """
     category_to_update = Category.query.filter_by(id=id).first()
     if not isinstance(current_user, Admin):
         flash('Oops! you were redirected from an admin only page', 'danger')
@@ -255,6 +285,9 @@ def edit_category(id):
 @product.route('/dash/brands')
 @login_required
 def brands():
+    """
+    Display all brands
+    """
     if not isinstance(current_user, Admin):
         flash('Oops! you were redirected from an admin only page', 'danger')
         return redirect(url_for('dash.home'))
@@ -265,6 +298,9 @@ def brands():
 @product.route('/dash/categories')
 @login_required
 def categories():
+    """
+    Display all categories
+    """
     if not isinstance(current_user, Admin):
         flash('Oops! you were redirected from an admin only page', 'danger')
         return redirect(url_for('dash.home'))
@@ -275,6 +311,9 @@ def categories():
 @product.route('/dash/<int:id>/deletebrand')
 @login_required
 def delete_brand(id):
+    """
+    Deletes a brand from the database
+    """
     if not isinstance(current_user, Admin):
         flash('Oops! you were redirected from an admin only page', 'danger')
         return redirect(url_for('dash.home'))
@@ -288,6 +327,9 @@ def delete_brand(id):
 @product.route('/dash/<int:id>/deletecategory')
 @login_required
 def delete_category(id):
+    """
+    Deletes a particular category from the database
+    """
     if not isinstance(current_user, Admin):
         flash('Oops! you were redirected from an admin only page', 'danger')
         return redirect(url_for('dash.home'))

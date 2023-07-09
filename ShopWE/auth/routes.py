@@ -7,10 +7,15 @@ from ShopWE.auth.forms import Login
 from ShopWE.models import Customer, Vendor, Admin, Activity
 from ShopWE.generic import save_image
 
+"""A Module that handles authentication"""
+
 auth = Blueprint('auth', __name__)
 
 @auth.route('/auth/login', methods=['POST', 'GET'])
 def login():
+    """
+    This function handles customers , Vendor and Admin Login auth
+    """
     form = Login()
     if form.validate_on_submit():
         user = Customer.query.filter_by(email=form.email.data).first()
@@ -53,6 +58,9 @@ def login():
 
 @auth.route('/auth/customer/register', methods=['POST', 'GET'])
 def customer_register():
+    """
+    Register new customers
+    """
     form = CustomerRegister()
     
     if form.validate_on_submit():
@@ -76,6 +84,9 @@ def customer_register():
 
 @auth.route('/auth/vendor/register', methods=['POST', 'GET'])
 def vendor_register():
+    """
+    Register new vendors
+    """
     form = VendorRegister()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -98,6 +109,9 @@ def vendor_register():
 
 @auth.route('/logout')
 def logout():
+    """
+    Logs Users out
+    """
     if not current_user.is_authenticated:
         flash('You re not logged in pls login first!', 'danger')
         return redirect(url_for('auth.login'))

@@ -3,6 +3,9 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, TelFi
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from ShopWE.models import Customer
 
+"""
+A module that uses FlaskWtf for rendering form inputs
+"""
 
 class Login(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])

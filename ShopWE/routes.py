@@ -9,6 +9,9 @@ from flask_login import current_user
 @app.route('/')
 @app.route('/home')
 def home():
+    """
+    Display all product and also paginating
+    """
     brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
     categories = Category.query.join(Product, (Category.id == Product.category_id)).all()
     page = request.args.get('page', 1, type=int)
@@ -18,6 +21,9 @@ def home():
 
 @app.route('/home/products/brands/<string:name>')
 def brands(name):
+    """
+    Display all product filtered by brand
+    """
     brand_id = Brand.query.filter_by(name=name).first()
     brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
     categories = Category.query.join(Product, (Category.id == Product.category_id)).all()
@@ -28,6 +34,9 @@ def brands(name):
 
 @app.route('/home/products/categories/<string:name>')
 def categories(name):
+    """
+    Display all product filtered by category
+    """
     category_id = Category.query.filter_by(name=name).first()
     categories = Category.query.join(Product, (Category.id == Product.category_id)).all()
     brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
@@ -40,3 +49,17 @@ def categories(name):
 def test():
     products = Product.query.all()
     return render_template('test.html', products=products)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    """
+    handling Client error
+    """
+    return render_template('error/404.html'), 404
+
+@app.errorhandler(500)
+def page_not_found(e):
+    """
+    handling Server error
+    """
+    return render_template('error/500.html'), 404

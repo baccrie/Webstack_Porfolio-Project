@@ -63,7 +63,7 @@ class Vendor(db.Model, UserMixin):
     about = db.Column(db.String(1000))
     phone = db.Column(db.String(30), nullable=False, unique=True)
 
-    password = db.Column(db.String(50))
+    password = db.Column(db.String(200))
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     profile_image = db.Column(db.String(150), default='vendor.jpg')
@@ -93,7 +93,7 @@ class Admin(db.Model, UserMixin):
     phone = db.Column(db.String(30), unique=True)
     profile_image = db.Column(db.String(30), default='default.jpg')
 
-    password = db.Column(db.String(50))
+    password = db.Column(db.String(200))
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Relationships
@@ -136,7 +136,7 @@ class Customer(db.Model, UserMixin):
     profile_image = db.Column(db.String(30), default='default.jpg')
 
 
-    password = db.Column(db.String(50))
+    password = db.Column(db.String(200))
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Relationship
