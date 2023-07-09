@@ -88,7 +88,7 @@
             {% for key, product in session['cart'].items() %}
             <li class="message-item">
               <a href="{{ url_for('product.singleproduct', id=key)}}">
-                <img src="{{ url_for('static', filename='images/products/' + product.image) }}" alt="" class="rounded-circle">
+                <img src="{{ url_for('static', filename='images/products/' + product.image_1) }}" alt="" class="rounded-circle">
                 <div>
                   <h4>{{ product.name | truncate(20) }}</h4>
               
