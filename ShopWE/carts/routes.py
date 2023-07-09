@@ -24,7 +24,10 @@ def add_to_cart(id):
                 'discount': product_to_add.discount,
                 'quantity': 1,
                 'image': product_to_add.image_1,
-                'author': product_to_add.owner.name
+                'author': product_to_add.owner.name,
+                'category': product_to_add.category.name,
+                'brand': product_to_add.brand.name,
+                'vendor': product_to_add.owner.name
             }
         }
 
@@ -41,7 +44,10 @@ def add_to_cart(id):
                 'discount': product_to_add.discount,
                 'quantity': 1,
                 'image': product_to_add.image_1,
-                'author': product_to_add.owner.name
+                'author': product_to_add.owner.name,
+                'category': product_to_add.category.name,
+                'brand': product_to_add.brand.name,
+                'vendor': product_to_add.owner.name
                 }
             }
             add_cart(new)
@@ -64,6 +70,17 @@ def cart_items():
     
     return render_template('cart/cart.html')
 
+@cart.route('/cart/<int:id>/remove')
+@login_required
+def delete_item(id):
+    if 'cart' not in session:
+        flash(f'Cart is empty , pls add products to cart', 'info')
+        return redirect(url_for('home'))
+    else:
+        session['cart'].pop(str(id))
+        flash(f'Product successfully removed', 'danger')
+        # return redirect(url_for('home'))
+        return redirect(url_for('cart.cart_items'))
 
 @cart.route('/clear')
 def clear():

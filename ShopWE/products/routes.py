@@ -141,6 +141,7 @@ def deleteproduct(id):
     db.session.add(new_activity)
     db.session.commit()
 
+    flash(f'Product successfully deleted', 'info')
     return redirect(url_for('dash.home'))
 
 

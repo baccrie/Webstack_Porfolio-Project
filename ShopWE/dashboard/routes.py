@@ -62,7 +62,7 @@ def profile(id):
         user_profile.about = form.about.data
 
         db.session.commit()
-        flash(f'Successful', 'success')
+        flash(f'Profile successfully updated', 'success')
         return redirect(url_for('dash.home'))
     
     

@@ -13,7 +13,8 @@ blog = Blueprint('blog', __name__)
 @blog.route('/posts')
 @login_required
 def posts():
-    posts = Post.query.all()
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.paginate(page=page, per_page=4)
     return render_template('blog/posts.html', posts=posts, categories=categories(), brands=brands())
 
 

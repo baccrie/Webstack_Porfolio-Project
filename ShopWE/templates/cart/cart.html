@@ -3,7 +3,7 @@
 {% block content %}
 
 <main id="main" class="main">
-
+  {% include 'message.html' %}
     <div class="pagetitle">
       <h1>Cart Items</h1>
     </div><!-- End Page Title -->
@@ -55,10 +55,11 @@
                             </li>
                           </ul>
                         </td>
-                        <td>#{{ product.price }}</td>
+                        <td>{{ product.vendor }}</td>
+                        <td>${{ product.price }}</td>
                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{ product.discount }}%</strong></td>
-                        <td>null</td>
-                        <td>null</td>
+
+                        <td>{{ product.category }}</td>
                         <td>
                           <div class="dropdown">
                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -68,7 +69,7 @@
                               <a class="dropdown-item" href="javascript:void(0);"
                                 ><i class="bx bx-edit-alt me-1"></i> Edit</a
                               >
-                              <a class="dropdown-item" href="javascript:void(0);"
+                              <a class="dropdown-item" href="{{ url_for('cart.delete_item', id=key) }}"
                                 ><i class="bx bx-trash me-1"></i> Delete</a
                               >
                             </div>
@@ -89,12 +90,8 @@
     </section>
     <section id="cart-add" class="section-p1">
       <div id="coupon">
-          <h3>Apply Coupon</h3>
           <div>
-              <input type="text" placeholder="Enter Your Coupon">
-              <br>
-              <br>
-              <a href="" class="btn btn-primary">Apply coupon</a>
+              <a href="{{ url_for('cart.clear') }}" class="btn btn-primary">Clear cart</a>
           </div>
       </div>
   
