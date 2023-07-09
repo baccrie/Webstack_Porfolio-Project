@@ -271,3 +271,29 @@ def categories():
     
     categories = Category.query.all()
     return render_template('product/categories.html', categories=categories)
+
+@product.route('/dash/<int:id>/deletebrand')
+@login_required
+def delete_brand(id):
+    if not isinstance(current_user, Admin):
+        flash('Oops! you were redirected from an admin only page', 'danger')
+        return redirect(url_for('dash.home'))
+    
+    brand_to_delete = Brand.query.get_or_404(id)
+    db.session.delete(brand_to_delete)
+    db.session.commit()
+    flash(f'Brand has been deleted successfully', 'info')
+    return redirect(url_for('product.brands'))
+
+@product.route('/dash/<int:id>/deletecategory')
+@login_required
+def delete_category(id):
+    if not isinstance(current_user, Admin):
+        flash('Oops! you were redirected from an admin only page', 'danger')
+        return redirect(url_for('dash.home'))
+    
+    category_to_delete = Category.query.get_or_404(id)
+    db.session.delete(category_to_delete)
+    db.session.commit()
+    flash(f'Category has been deleted successfully', 'info')
+    return redirect(url_for('product.categories'))

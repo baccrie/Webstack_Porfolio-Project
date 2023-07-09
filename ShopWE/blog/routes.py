@@ -88,3 +88,16 @@ def allposts():
 def single_post(id):
     post = Post.query.get_or_404(id)
     return render_template('blog/single_post.html', post=post)
+
+@blog.route('/blog/<int:id>/deletepost')
+@login_required
+def delete_post(id):
+    if not isinstance(current_user, Admin):
+        flash('Oops! you were redirected from an admin only page', 'danger')
+        return redirect(url_for('dash.home'))
+    
+    post_to_delete = Post.query.get_or_404(id)
+    db.session.delete(post_to_delete)
+    db.session.commit()
+    flash(f'Post has been deleted successfully', 'info')
+    return redirect(url_for('blog.allposts'))

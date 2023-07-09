@@ -3,7 +3,7 @@
 {% block content %}
 
 <main id="main" class="main">
-
+  {% include 'message.html' %}
     <div class="pagetitle">
       <h1>Post Page</h1>
       <nav>
@@ -61,7 +61,7 @@
                               <a href="{{ url_for('blog.updatepost', id=post.id)}}" class="dropdown-item" href="javascript:void(0);"
                                 ><i class="bx bx-edit-alt me-1"></i> Edit</a
                               >
-                              <a href="#"class="dropdown-item" href="javascript:void(0);"
+                              <a href="{{ url_for('blog.delete_post', id=post.id)}}"class="dropdown-item" href="javascript:void(0);"
                                 ><i class="bx bx-trash me-1"></i> Delete</a
                               >
                             </div>
