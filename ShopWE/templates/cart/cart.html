@@ -28,8 +28,9 @@
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-
+                      
                         {% for key, product in session['cart'].items() %}
+                       
                       <tr>
                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{ loop.index }}</strong></td>
                         <td>{{ product.name | truncate(30) }}</td>
@@ -100,7 +101,7 @@
           <table>
               <tr>
                   <td>Cart Subtotal</td>
-                  <td>₦ 335</td>
+                  <td>${{ subtotal }}</td>
               </tr>
   
               <tr>
@@ -110,7 +111,7 @@
   
               <tr>
                   <td><strong>Total</strong></td>
-                  <td><strong>₦ 335</strong></td>
+                  <td><strong>${{ total }}</strong></td>
               </tr>
   
           </table>

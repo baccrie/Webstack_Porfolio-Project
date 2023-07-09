@@ -82,16 +82,3 @@ def profile(id):
    
 
     return render_template('dashboard/profile.html', form=form, form1=form1)
-
-@dash.route('/dash/addbrand', methods=['POST', 'GET'])
-@login_required
-def addbrand():
-    if request.method == 'POST':
-    #newBrand = Brand(name=form1.name.data)
-        newBrand = request.method.get('name')
-        db.session.add(newBrand)
-        #db.session.commit()
-        flash(f'Brand has been successfully added', 'success')
-        return redirect(url_for('dash.addproduct'))
-
-    return render_template('dashboard/home.html')

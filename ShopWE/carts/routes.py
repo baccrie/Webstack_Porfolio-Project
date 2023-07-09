@@ -69,8 +69,17 @@ def cart_items():
     if 'cart' not in session:
         flash(f'Cart is empty , pls add products to cart', 'info')
         return redirect(url_for('home'))
-    
-    return render_template('cart/cart.html')
+    subtotal = 0
+    total = 0
+
+    print(session['cart'])
+    for key, value in session['cart'].items():
+        print(value)
+        subtotal += float(value['price'])
+        total += float(value['price']) - (float(value['discount']) / 100 * float(value['price']))
+    subtotal = f'{subtotal:.0f}'
+    total = f'{total:.0f}'
+    return render_template('cart/cart.html', total=total, subtotal=subtotal)
 
 @cart.route('/cart/<int:id>/remove')
 @login_required

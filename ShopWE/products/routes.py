@@ -167,3 +167,43 @@ def allproducts():
     
     products = Product.query.all()
     return render_template('product/all_products.html', products=products)
+
+@product.route('/dash/addbrand', methods=['POST', 'GET'])
+@login_required
+def add_brand():
+    if not isinstance(current_user, Admin):
+        flash('Oops! you were redirected from an admin only page', 'danger')
+        return redirect(url_for('dash.home'))
+    
+    if request.method == 'POST':
+        brand = request.form.get('brand')
+        brands = Brand.query.filter_by(name=brand).first()
+        if brands:
+            flash('Brand already exixts pls choose a different brand', 'danger')
+            return redirect(url_for('product.add_brand'))
+        new_brand = Brand(name=request.form.get('brand'))
+        db.session.add(new_brand)
+        db.session.commit()
+        flash('Brand has been addeed successfully', 'success')
+
+    return render_template('product/addbrand.html')
+
+@product.route('/dash/addcategory', methods=['POST', 'GET'])
+@login_required
+def add_category():
+    if not isinstance(current_user, Admin):
+        flash('Oops! you were redirected from an admin only page', 'danger')
+        return redirect(url_for('dash.home'))
+    
+    if request.method == 'POST':
+        category = request.form.get('category')
+        categories = Category.query.filter_by(name=category).first()
+        if categories:
+            flash('Category already exixts pls choose a different category', 'danger')
+            return redirect(url_for('product.add_category'))
+        new_category = Category(name=request.form.get('category'))
+        db.session.add(new_category)
+        db.session.commit()
+        flash('Category has been addeed successfully', 'success')
+
+    return render_template('product/addcategory.html')

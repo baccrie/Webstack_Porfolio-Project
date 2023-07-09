@@ -355,12 +355,12 @@
             </a>
           </li>
           <li>
-            <a href="charts-apexcharts.html" data-bs-toggle="modal" data-bs-target="#basicModal">
+            <a href="{{ url_for('product.add_brand')}}">
               <i class="bi bi-circle"></i><span>Brand</span>
             </a>
           </li>
           <li>
-            <a href="charts-echarts.html" data-bs-toggle="modal" data-bs-target="#categoryModal">
+            <a href="{{ url_for('product.add_category')}}">
               <i class="bi bi-circle"></i><span>Category</span>
             </a>
           </li>
@@ -410,82 +410,7 @@
 
   {% block content %}
   {% endblock content %}
-<!-- MODALS -->
-  <!-- Button trigger modal -->
-  <!-- Modal -->
-  <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel1">Add new brand to the database</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <form action="{{ url_for('product.addproduct') }}" method="POST">
-            <div class="col mb-3">
-             
-            </div>
-          </div>
-          <div class="row g-2">
-            <div class="col mb-0">
-              
-          </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-            Close
-          </button>
-          
-        </div>
-      </div>
-    </form>
-    </div>
-  </div>
 
-
-
-  <div class="modal fade" id="categoryModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel1">Add new Category to the database</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col mb-3">
-                <label for="nameBasic" class="form-label">Category Name</label>
-                <input type="text" id="nameBasic" class="form-control" placeholder="Enter Name" />
-              </div>
-            </div>
-            <div class="row g-2">
-              <div class="col mb-0">
-                <label for="emailBasic" class="form-label">Image</label>
-                <input class="form-control" type="file" id="formFileMultiple"/>
-            </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Add</button>
-          </div>
-        </div>
-      </div>
-    </div>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
