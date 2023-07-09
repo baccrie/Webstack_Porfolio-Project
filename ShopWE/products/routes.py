@@ -184,7 +184,7 @@ def add_brand():
         new_brand = Brand(name=request.form.get('brand'))
         db.session.add(new_brand)
         db.session.commit()
-        flash('Brand has been addeed successfully', 'success')
+        flash('Brand has been added successfully', 'success')
 
     return render_template('product/addbrand.html')
 
@@ -204,6 +204,70 @@ def add_category():
         new_category = Category(name=request.form.get('category'))
         db.session.add(new_category)
         db.session.commit()
-        flash('Category has been addeed successfully', 'success')
+        flash('Category has been added successfully', 'success')
 
     return render_template('product/addcategory.html')
+
+@product.route('/dash/<int:id>/editbrand', methods=['POST', 'GET'])
+@login_required
+def edit_brand(id):
+    brand_to_update = Brand.query.filter_by(id=id).first()
+    if not isinstance(current_user, Admin):
+        flash('Oops! you were redirected from an admin only page', 'danger')
+        return redirect(url_for('dash.home'))
+    
+    if request.method == 'POST':
+        brand = request.form.get('brand')
+        brands = Brand.query.filter_by(name=brand).first()
+
+        if brands:
+            flash('Brand already exixts pls choose a different brand', 'danger')
+            return redirect(url_for('product.edit_brand', id=id))
+        
+        brand_to_update.name = brand
+        db.session.commit()
+        flash('Brand has been updated successfully', 'success')
+    return render_template('product/edit_brand.html', brand_to_update=brand_to_update)
+
+
+@product.route('/dash/<int:id>/editcategory', methods=['POST', 'GET'])
+@login_required
+def edit_category(id):
+    category_to_update = Category.query.filter_by(id=id).first()
+    if not isinstance(current_user, Admin):
+        flash('Oops! you were redirected from an admin only page', 'danger')
+        return redirect(url_for('dash.home'))
+    
+    if request.method == 'POST':
+        category = request.form.get('category')
+        categories = Category.query.filter_by(name=category).first()
+
+        if categories:
+            flash('Categories already exixts pls choose a different category', 'danger')
+            return redirect(url_for('product.edit_category', id=id))
+        
+        category_to_update.name = request.form.get('category')
+        db.session.commit()
+        flash('category has been updated successfully', 'success')
+    return render_template('product/edit_category.html', category_to_update=category_to_update)
+
+
+@product.route('/dash/brands')
+@login_required
+def brands():
+    if not isinstance(current_user, Admin):
+        flash('Oops! you were redirected from an admin only page', 'danger')
+        return redirect(url_for('dash.home'))
+    
+    brands = Brand.query.all()
+    return render_template('product/brands.html', brands=brands)
+
+@product.route('/dash/categories')
+@login_required
+def categories():
+    if not isinstance(current_user, Admin):
+        flash('Oops! you were redirected from an admin only page', 'danger')
+        return redirect(url_for('dash.home'))
+    
+    categories = Category.query.all()
+    return render_template('product/categories.html', categories=categories)

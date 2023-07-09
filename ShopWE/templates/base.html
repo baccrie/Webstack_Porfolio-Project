@@ -365,12 +365,12 @@
             </a>
           </li>
           <li>
-            <a href="charts-apexcharts.html" data-bs-toggle="modal" data-bs-target="#basicModal">
+            <a href="{{ url_for('product.add_brand')}}">
               <i class="bi bi-circle"></i><span>Brand</span>
             </a>
           </li>
           <li>
-            <a href="charts-echarts.html" data-bs-toggle="modal" data-bs-target="#categoryModal">
+            <a href="{{ url_for('product.add_category')}}">
               <i class="bi bi-circle"></i><span>Category</span>
             </a>
           </li>
@@ -379,14 +379,14 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="index.html">
+        <a class="nav-link collapsed" href="{{ url_for('product.brands')}}">
           <i class="bx bx-wallet"></i>
           <span>Brands</span>
         </a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="index.html">
+        <a class="nav-link collapsed" href="{{ url_for('product.categories')}}">
           <i class="bx bxs-category-alt
           "></i>
           <span>Category</span>
