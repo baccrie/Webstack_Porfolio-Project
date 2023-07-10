@@ -40,7 +40,7 @@ def addpost():
             new_post.image_1 = image_name
             
         new_activity = Activity(content='You Published a new blog post', category='success', admin_id=current_user.id)
-        db.sesion.add(new_activity)
+        db.session.add(new_activity)
         db.session.add(new_post)
 
         db.session.commit()

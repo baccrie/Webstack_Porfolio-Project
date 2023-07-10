@@ -15,7 +15,7 @@ def home():
     brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
     categories = Category.query.join(Product, (Category.id == Product.category_id)).all()
     page = request.args.get('page', 1, type=int)
-    products = Product.query.paginate(page=page, per_page=5)
+    products = Product.query.paginate(page=page, per_page=15)
     posts = Post.query.limit(4).all()
     return render_template('home.html', brands=brands, categories=categories, products=products, posts=posts)
 

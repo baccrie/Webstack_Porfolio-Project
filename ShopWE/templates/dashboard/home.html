@@ -179,7 +179,7 @@
                       <tr>
                         <th scope="row"><a href="#"><img src="{{ url_for('static', filename='images/products/' + product.image_1) }}" alt=""></a></th>
                         <td><a href="#" class="text-primary fw-bold">{{ product.name | truncate(60) }}</a></td>
-                        <td>{{ product.price }}</td>
+                        <td>${{ product.price }}</td>
                         <td class="fw-bold">{{ product.stock }}</td>
                         <td>{{ product.discount }}%</td>
                       </tr>

@@ -18,10 +18,13 @@ def singleproduct(id):
     """
     Display a product details based on selection
     """
+    print('yes')
     product = Product.query.get_or_404(id)
     brand = Brand.query.filter_by(id=product.brand_id).first()
-    related_product = brand.products
-    return render_template('product/single_product.html', product=product, brands=brands(), categories=categories(), related_products=related_product, id=id)
+    #related_product = brand.products
+    brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
+    categories = Category.query.join(Product, (Category.id == Product.category_id)).all()
+    return render_template('product/single_product.html', product=product, brands=brands, categories=categories, id=id)
 
 
 @product.route('/dash/addproduct', methods=['POST', 'GET'])
@@ -72,6 +75,8 @@ def updateproduct(id):
     form = Updateproduct()
     brands = Brand.query.all()
     categories = Category.query.all()
+    brand_id = request.form.get('brand')
+    category_id = request.form.get('category')
 
     if not isinstance(current_user, Vendor):
         flash(f'This page is only accessible to vendors', 'danger')
@@ -87,6 +92,8 @@ def updateproduct(id):
         product_to_edit.stock = form.stock.data
         product_to_edit.discount = form.discount.data
         product_to_edit.description = form.description.data
+        product_to_edit.brand_id = brand_id
+        product_to_edit.category_id = category_id
 
         if form.image_1.data:
             try:

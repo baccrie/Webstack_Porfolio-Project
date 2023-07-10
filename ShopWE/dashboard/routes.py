@@ -53,7 +53,7 @@ def profile(id):
             user_profile.first_name = form.first_name.data
             user_profile.last_name = form.last_name.data
         else:
-            user_profile.name = form.email.data
+            user_profile.name = form.name.data
         user_profile.country = form.country.data
         user_profile.state = form.state.data
         user_profile.city = form.city.data
