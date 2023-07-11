@@ -34,6 +34,9 @@ This is an e-commerce webapp that deals with all kinds of products , it allows V
 
 Here is a preview of the WebApp
 
+### HomePage
+![Home Page](https://github.com/baccrie/Webstack_Porfolio-Project/blob/main/preview%20-images/Screenshot%20from%202023-07-10%2017-58-20.png)
+
 
 # Contributor
  - https://www.github.com/baccrie
