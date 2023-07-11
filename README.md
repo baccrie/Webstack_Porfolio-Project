@@ -32,7 +32,7 @@ This is an e-commerce webapp that deals with all kinds of products , it allows V
 
 ## Preview
 
-Here is a preview of the To-do-list:
+Here is a preview of the WebApp
 
 
 # Contributor
