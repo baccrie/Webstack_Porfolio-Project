@@ -36,6 +36,18 @@ Here is a preview of the WebApp
 
 ### HomePage
 ![Home Page](https://github.com/baccrie/Webstack_Porfolio-Project/blob/main/preview%20-images/Screenshot%20from%202023-07-10%2017-58-20.png)
+![Home Page](https://github.com/baccrie/Webstack_Porfolio-Project/blob/main/preview%20-images/Screenshot%20from%202023-07-10%2017-59-55.png)
+
+## Dashboard
+![Dashboard](https://github.com/baccrie/Webstack_Porfolio-Project/blob/main/preview%20-images/Screenshot%20from%202023-07-10%2018-00-34.png)
+![Dashboard](https://github.com/baccrie/Webstack_Porfolio-Project/blob/main/preview%20-images/Screenshot%20from%202023-07-10%2018-00-52.png)
+
+## Profile
+![Profile](https://github.com/baccrie/Webstack_Porfolio-Project/blob/main/preview%20-images/Screenshot%20from%202023-07-10%2018-01-41.png)
+![Profile](https://github.com/baccrie/Webstack_Porfolio-Project/blob/main/preview%20-images/Screenshot%20from%202023-07-10%2018-01-50.png)
+
+## Authentication
+![Profile](https://github.com/baccrie/Webstack_Porfolio-Project/blob/main/preview%20-images/Screenshot%20from%202023-07-10%2018-03-35.png)
 
 
 # Contributor
