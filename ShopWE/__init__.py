@@ -24,7 +24,11 @@ convention = {
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///E-Commerce.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:gbenga@localhost/ShopWE'
+HOST = os.environ.get('MYSQL_HOST')
+PASSWORD = os.environ.get('MYSQL_PASSWORD')
+DATABASE = os.environ.get('MYSQL_DATABASE')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://root:{PASSWORD}@{HOST}/{DATABASE}'
 app.config['SECRET_KEY'] = 'hbaq78gqidbiq8'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
